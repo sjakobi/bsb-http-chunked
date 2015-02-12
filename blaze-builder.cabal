@@ -14,16 +14,16 @@ Description:
                      sending it over the network.
 
 Author:              Jasper Van der Jeugt, Simon Meier, Leon P Smith
-Copyright:           (c) 2010-2013 Simon Meier
+Copyright:           (c) 2010-2014 Simon Meier
                      (c) 2010 Jasper Van der Jeugt
-                     (c) 2013 Leon P Smith
-Maintainer:          Simon Meier <iridcode@gmail.com>
+                     (c) 2013-2015 Leon P Smith
+Maintainer:          Leon Smith <leon@melding-monads.com>
 
 License:             BSD3
 License-file:        LICENSE
 
-Homepage:            http://github.com/meiersi/blaze-builder
-Bug-Reports:         http://github.com/meiersi/blaze-builder/issues
+Homepage:            http://github.com/lpsmith/blaze-builder
+Bug-Reports:         http://github.com/lpsmith/blaze-builder/issues
 Stability:           Experimental
 
 Category:            Data
@@ -42,8 +42,6 @@ Extra-source-files:
                      benchmarks/Throughput/*.c
 
                      tests/*.hs
-
-                     cbits/*.c
 
                      Data/ByteString/*.hs
                      Data/ByteString/Builder/*.hs

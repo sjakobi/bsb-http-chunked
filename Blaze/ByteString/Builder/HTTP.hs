@@ -1,6 +1,16 @@
 {-# LANGUAGE BangPatterns, CPP, MagicHash, OverloadedStrings, MonoPatBinds #-}
--- | Support for HTTP response encoding.
+------------------------------------------------------------------------------
+-- |
+-- Module:      Blaze.ByteString.Builder.HTTP
+-- Copyright:   (c) 2013 Simon Meier
+-- License:     BSD3
+-- Maintainer:  Leon P Smith <leon@melding-monads.com>
+-- Stability:   experimental
 --
+-- Support for HTTP response encoding.
+--
+------------------------------------------------------------------------------
+
 module Blaze.ByteString.Builder.HTTP (
   -- * Chunked HTTP transfer encoding
     chunkedTransferEncoding

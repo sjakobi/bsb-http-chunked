@@ -6,7 +6,7 @@
 --               (c) 2010 Jasper van der Jeugt
 -- License     : BSD3-style (see LICENSE)
 --
--- Maintainer  : Simon Meier <iridcode@gmail.com>
+-- Maintainer  : Leon Smith <leon@melding-monads.com>
 -- Stability   : experimental
 -- Portability : tested on GHC only
 --

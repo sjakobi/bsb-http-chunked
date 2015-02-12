@@ -4,7 +4,7 @@
 -- Copyright   : (c) 2010 Simon Meier
 -- License     : BSD3-style (see LICENSE)
 -- 
--- Maintainer  : Simon Meier <iridcode@gmail.com>
+-- Maintainer  : Leon P Smith <leon@melding-monads.com>
 -- Stability   : experimental
 -- Portability : tested on GHC only
 --
