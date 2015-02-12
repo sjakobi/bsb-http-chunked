@@ -3,15 +3,21 @@ Version:             0.4.0.0
 Synopsis:            Efficient buffered output.
 
 Description:
-                     This library provides an abstraction of buffered output of
-                     byte streams and several convenience functions to exploit
-                     it. For example, it allows to efficiently serialize
-                     Haskell values to lazy bytestrings with a large average
-                     chunk size. The large average chunk size allows to make
-                     good use of cache prefetching in later processing steps
-                     (e.g. compression) and reduces the system call overhead
-                     when writing the resulting lazy bytestring to a file or
-                     sending it over the network.
+                     This library provides an implementation of the older
+                     blaze-builder interface in terms of the new builder that
+                     shipped with bytestring-0.10.4.0
+                     .
+                     This implementation is mostly intended as a bridge to the
+                     new builder,  so that code that uses the old interface
+                     can interoperate with code that uses the new
+                     implementation.   Note that no attempt has been made
+                     to preserve the old internal modules,  so code that
+                     has these dependencies cannot use this interface.
+                     .
+                     New code should,  for the most part,  use the new
+                     interface.   However, this module does implement
+                     a chunked HTTP encoding,  which is not otherwise
+                     implemented (yet?) with the new builder.
 
 Author:              Jasper Van der Jeugt, Simon Meier, Leon P Smith
 Copyright:           (c) 2010-2014 Simon Meier
@@ -52,8 +58,6 @@ Extra-source-files:
 Source-repository head
   Type: git
   Location: https://github.com/meiersi/blaze-builder.git
-
--- Note that this flag is set by Setup.hs
 
 Library
   ghc-options:       -Wall
