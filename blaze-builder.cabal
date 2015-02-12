@@ -49,12 +49,6 @@ Extra-source-files:
 
                      tests/*.hs
 
-                     Data/ByteString/*.hs
-                     Data/ByteString/Builder/*.hs
-                     Data/ByteString/Builder/Prim/*.hs
-                     Data/ByteString/Builder/Prim/Internal/*.hs
-                     Data/ByteString/Short/*.hs
-
 Source-repository head
   Type: git
   Location: https://github.com/meiersi/blaze-builder.git
