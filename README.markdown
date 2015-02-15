@@ -1,6 +1,9 @@
 blaze-builder
 =============
 
+[![Continuous Integration status][status-png]][status]
+[![Hackage page (downloads and API reference)][hackage-png]][hackage]
+
 This library allows to efficiently serialize Haskell values to lazy bytestrings
 with a large average chunk size. The large average chunk size allows to make
 good use of cache prefetching in later processing steps (e.g. compression) and
