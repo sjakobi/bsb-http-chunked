@@ -105,7 +105,7 @@ instance Arbitrary Builder where
 instance Arbitrary Write where
     arbitrary = mconcat . map singleWrite <$> arbitrary
       where
-        singleWrite (Left bs) = writeByteString (LB.toStrict bs)
+        singleWrite (Left bs) = writeByteString (mconcat (LB.toChunks bs))
         singleWrite (Right w) = writeWord8 w
 
 instance Arbitrary LB.ByteString where
