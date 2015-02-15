@@ -31,3 +31,8 @@ the improvements in expressivity. This module allows to incorporate efficient
 primitive buffer manipulations as parts of a builder. We use this facility
 in the 'blaze-html' HTML templating library to allow for the efficient
 serialization of HTML escaped and UTF-8 encoded characters.
+
+ [status-png]: https://api.travis-ci.org/lpsmith/blaze-builder.svg
+ [status]: http://travis-ci.org/lpsmith/blaze-builder?branch=master
+ [hackage-png]: http://img.shields.io/hackage/v/blaze-builder.svg
+ [hackage]: http://hackage.haskell.org/package/blaze-builder
