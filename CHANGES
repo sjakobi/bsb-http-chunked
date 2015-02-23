@@ -1,3 +1,18 @@
+* 0.4.0.1
+  - Tightened the version constraints on the bytestring package for GHC 7.8
+
+* 0.4.0.0
+  - This is now a compatibility shim for the new bytestring builder.  Most
+    of the old internal modules are gone.   See this blog post for more
+    information:
+
+    <http://blog.melding-monads.com/2015/02/12/announcing-blaze-builder-0-4/>
+
+  - The 'Blaze.ByteString.Builder.Html.Utf8.fromHtmlEscaped*' functions now
+    strip out any ASCII control characters present in their inputs.  See
+    <https://github.com/lpsmith/blaze-builder/issues/1> for more
+    information.
+
 * 0.3.3.0
   - exposed the 'Buffer' constructor to enable keeping around a pool of
     buffers.
