@@ -51,7 +51,7 @@ Extra-source-files:
 
 Source-repository head
   Type: git
-  Location: https://github.com/meiersi/blaze-builder.git
+  Location: https://github.com/lpsmith/blaze-builder.git
 
 Library
   ghc-options:       -Wall
