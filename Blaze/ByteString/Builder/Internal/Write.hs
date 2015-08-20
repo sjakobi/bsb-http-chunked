@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, BangPatterns, MonoPatBinds #-}
+{-# LANGUAGE CPP, BangPatterns #-}
 
 -- |
 -- Module      : Blaze.ByteString.Builder.Internal.Poke

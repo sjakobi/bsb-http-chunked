@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, MagicHash, OverloadedStrings, MonoPatBinds #-}
+{-# LANGUAGE BangPatterns, CPP, MagicHash, OverloadedStrings #-}
 ------------------------------------------------------------------------------
 -- |
 -- Module:      Blaze.ByteString.Builder.HTTP
