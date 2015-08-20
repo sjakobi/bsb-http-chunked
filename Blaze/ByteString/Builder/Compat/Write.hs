@@ -16,9 +16,10 @@ module Blaze.ByteString.Builder.Compat.Write
     , writePrimBounded
     ) where
 
-import Foreign
-import Data.ByteString.Builder.Prim.Internal
-import Blaze.ByteString.Builder.Internal.Write
+import Data.ByteString.Builder.Prim.Internal (BoundedPrim, FixedPrim
+                                             , runB, runF, size, sizeBound)
+import Blaze.ByteString.Builder.Internal.Write (Poke(..), Write
+                                               , boundedWrite, exactWrite)
 
 writePrimFixed :: FixedPrim a -> a -> Write
 writePrimFixed fe a = exactWrite (size fe) (runF fe a)
