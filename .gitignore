@@ -5,6 +5,7 @@ dist/
 *.png
 
 cabal-dev/
+cabal.sandbox.config
 
 benchmarks/BlazeVsBinary
 benchmarks/ChunkedWrite

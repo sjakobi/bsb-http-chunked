@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, CPP, MagicHash, OverloadedStrings, MonoPatBinds #-}
+{-# LANGUAGE BangPatterns, CPP, MagicHash, OverloadedStrings #-}
 ------------------------------------------------------------------------------
 -- |
 -- Module:      Blaze.ByteString.Builder.HTTP
@@ -30,7 +30,6 @@ import Data.Word
 
 import Foreign
 
-import Data.Monoid
 import qualified Data.ByteString       as S
 import Data.ByteString.Char8 ()
 
@@ -40,6 +39,10 @@ import Data.ByteString.Builder.Internal
 import Blaze.ByteString.Builder.ByteString (copyByteString)
 
 import qualified Blaze.ByteString.Builder.Char8 as Char8
+
+#if !MIN_VERSION_base(4,8,0)
+import Data.Monoid
+#endif
 
 
 {-# INLINE shiftr_w32 #-}
