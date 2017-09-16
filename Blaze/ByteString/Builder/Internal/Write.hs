@@ -56,6 +56,9 @@ import Data.ByteString.Builder.Internal
 #if !MIN_VERSION_base(4,8,0)
 import Data.Monoid
 #endif
+#if !(MIN_VERSION_base(4,11,0))
+import Data.Semigroup
+#endif
 
 ------------------------------------------------------------------------------
 -- Poking a buffer and writing to a buffer
@@ -119,27 +122,49 @@ getBound' msg write =
     getBound $ write $ error $
     "getBound' called from " ++ msg ++ ": write bound is not data-independent."
 
+#if MIN_VERSION_base(4,9,0)
+instance Semigroup Poke where
+  {-# INLINE (<>) #-}
+  (Poke po1) <> (Poke po2) = Poke $ po1 >=> po2
+
+  {-# INLINE sconcat #-}
+  sconcat = foldr (<>) mempty
+#endif
+
 instance Monoid Poke where
   {-# INLINE mempty #-}
   mempty = Poke $ return
 
+#if !(MIN_VERSION_base(4,11,0))
   {-# INLINE mappend #-}
   (Poke po1) `mappend` (Poke po2) = Poke $ po1 >=> po2
 
   {-# INLINE mconcat #-}
   mconcat = foldr mappend mempty
+#endif
+
+#if MIN_VERSION_base(4,9,0)
+instance Semigroup Write where
+  {-# INLINE (<>) #-}
+  (Write bound1 w1) <> (Write bound2 w2) =
+    Write (bound1 + bound2) (w1 <> w2)
+
+  {-# INLINE sconcat #-}
+  sconcat = foldr (<>) mempty
+#endif
 
 instance Monoid Write where
   {-# INLINE mempty #-}
   mempty = Write 0 mempty
 
+#if !(MIN_VERSION_base(4,11,0))
   {-# INLINE mappend #-}
   (Write bound1 w1) `mappend` (Write bound2 w2) =
     Write (bound1 + bound2) (w1 `mappend` w2)
 
   {-# INLINE mconcat #-}
   mconcat = foldr mappend mempty
-
+#endif
 
 -- | @pokeN size io@ creates a write that denotes the writing of @size@ bytes
 -- to a buffer using the IO action @io@. Note that @io@ MUST write EXACTLY @size@
