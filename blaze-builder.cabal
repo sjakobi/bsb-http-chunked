@@ -56,17 +56,15 @@ Source-repository head
 Library
   ghc-options:       -Wall
 
-  exposed-modules:   Blaze.ByteString.Builder
-                     Blaze.ByteString.Builder.Int
-                     Blaze.ByteString.Builder.Word
-                     Blaze.ByteString.Builder.ByteString
-                     Blaze.ByteString.Builder.Char.Utf8
-                     Blaze.ByteString.Builder.Char8
-                     Blaze.ByteString.Builder.Html.Utf8
-                     Blaze.ByteString.Builder.HTTP
-                     Blaze.ByteString.Builder.Compat.Write
+  exposed-modules:   Data.ByteString.Builder.HTTP.Chunked
 
+  other-modules:     Blaze.ByteString.Builder
+                     Blaze.ByteString.Builder.ByteString
+                     Blaze.ByteString.Builder.Char8
+                     Blaze.ByteString.Builder.Compat.Write
+                     Blaze.ByteString.Builder.Int
                      Blaze.ByteString.Builder.Internal.Write
+                     Blaze.ByteString.Builder.Word
 
   build-depends:     base == 4.* ,
                      deepseq,

@@ -11,7 +11,7 @@
 --
 ------------------------------------------------------------------------------
 
-module Blaze.ByteString.Builder.HTTP (
+module Data.ByteString.Builder.HTTP.Chunked (
   -- * Chunked HTTP transfer encoding
     chunkedTransferEncoding
   , chunkedTransferTerminator
