@@ -53,12 +53,12 @@ import Control.Monad
 
 import Data.ByteString.Builder.Internal
 
-#if !MIN_VERSION_base(4,8,0)
-import Data.Monoid
-#endif
-#if !(MIN_VERSION_base(4,11,0))
+import Data.Monoid (Monoid(..))
+#if MIN_VERSION_base(4,9,0)
 import Data.Semigroup
 #endif
+
+import Prelude -- Silence redundant import warnings
 
 ------------------------------------------------------------------------------
 -- Poking a buffer and writing to a buffer
@@ -138,10 +138,10 @@ instance Monoid Poke where
 #if !(MIN_VERSION_base(4,11,0))
   {-# INLINE mappend #-}
   (Poke po1) `mappend` (Poke po2) = Poke $ po1 >=> po2
+#endif
 
   {-# INLINE mconcat #-}
   mconcat = foldr mappend mempty
-#endif
 
 #if MIN_VERSION_base(4,9,0)
 instance Semigroup Write where
@@ -161,10 +161,10 @@ instance Monoid Write where
   {-# INLINE mappend #-}
   (Write bound1 w1) `mappend` (Write bound2 w2) =
     Write (bound1 + bound2) (w1 `mappend` w2)
+#endif
 
   {-# INLINE mconcat #-}
   mconcat = foldr mappend mempty
-#endif
 
 -- | @pokeN size io@ creates a write that denotes the writing of @size@ bytes
 -- to a buffer using the IO action @io@. Note that @io@ MUST write EXACTLY @size@
