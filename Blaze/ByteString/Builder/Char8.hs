@@ -24,27 +24,9 @@ module Blaze.ByteString.Builder.Char8
     ) where
 
 import Blaze.ByteString.Builder.Compat.Write ( Write, writePrimFixed )
-import           Data.ByteString.Builder ( Builder )
-import qualified Data.ByteString.Builder as B
 import qualified Data.ByteString.Builder.Prim as P
 
 -- | Write the lower 8-bits of a character to a buffer.
 writeChar :: Char -> Write
 writeChar = writePrimFixed P.char8
 {-# INLINE writeChar #-}
-
--- | /O(1)/. Serialize the lower 8-bits of a character.
-fromChar :: Char -> Builder
-fromChar = B.char8
-{-# INLINE fromChar #-}
-
--- | /O(n)/. Serialize the lower 8-bits of all characters of a string
-fromString :: String -> Builder
-fromString = P.primMapListFixed P.char8
-{-# INLINE fromString #-}
-
--- | /O(n)/. Serialize a value by 'Show'ing it and serializing the lower 8-bits
--- of the resulting string.
-fromShow :: Show a => a -> Builder
-fromShow = fromString . show
-{-# INLINE fromShow #-}

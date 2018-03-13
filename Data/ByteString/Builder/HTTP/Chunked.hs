@@ -25,7 +25,6 @@ import Data.ByteString.Char8 ()
 import Blaze.ByteString.Builder.Internal.Write
 import Data.ByteString.Builder
 import Data.ByteString.Builder.Internal
-import Blaze.ByteString.Builder.ByteString (copyByteString)
 
 import qualified Blaze.ByteString.Builder.Char8 as Char8
 
@@ -188,4 +187,4 @@ chunkedTransferEncoding innerBuilder =
 
 -- | The zero-length chunk '0\r\n\r\n' signaling the termination of the data transfer.
 chunkedTransferTerminator :: Builder
-chunkedTransferTerminator = copyByteString "0\r\n\r\n"
+chunkedTransferTerminator = byteStringCopy "0\r\n\r\n"

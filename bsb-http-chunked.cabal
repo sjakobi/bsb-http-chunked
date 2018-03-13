@@ -39,8 +39,7 @@ Library
 
   exposed-modules:   Data.ByteString.Builder.HTTP.Chunked
 
-  other-modules:     Blaze.ByteString.Builder.ByteString
-                     Blaze.ByteString.Builder.Char8
+  other-modules:     Blaze.ByteString.Builder.Char8
                      Blaze.ByteString.Builder.Compat.Write
                      Blaze.ByteString.Builder.Internal.Write
 

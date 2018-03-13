@@ -86,26 +86,6 @@ data Write = Write {-# UNPACK #-} !Int Poke
 getPoke :: Write -> Poke
 getPoke (Write _ wio) = wio
 
--- | Run the 'Poke' action of a write.
-{-# INLINE runWrite #-}
-runWrite :: Write -> Ptr Word8 -> IO (Ptr Word8)
-runWrite = runPoke . getPoke
-
--- | Extract the maximal number of bytes that this write could write.
-{-# INLINE getBound #-}
-getBound :: Write -> Int
-getBound (Write bound _) = bound
-
--- | Extract the maximal number of bytes that this write could write in any
--- case. Assumes that the bound of the write is data-independent.
-{-# INLINE getBound' #-}
-getBound' :: String             -- ^ Name of caller: for debugging purposes.
-          -> (a -> Write)
-          -> Int
-getBound' msg write =
-    getBound $ write $ error $
-    "getBound' called from " ++ msg ++ ": write bound is not data-independent."
-
 #if MIN_VERSION_base(4,9,0)
 instance Semigroup Poke where
   {-# INLINE (<>) #-}
@@ -174,53 +154,6 @@ exactWrite size io = Write size (pokeN size io)
 boundedWrite :: Int -> Poke -> Write
 boundedWrite = Write
 
--- | @writeLiftIO io write@ creates a write executes the @io@ action to compute
--- the value that is then written.
-{-# INLINE writeLiftIO #-}
-writeLiftIO :: (a -> Write) -> IO a -> Write
-writeLiftIO write io =
-    Write (getBound' "writeLiftIO" write)
-          (Poke $ \pf -> do x <- io; runWrite (write x) pf)
-
--- | @writeIf p wTrue wFalse x@ creates a 'Write' with a 'Poke' equal to @wTrue
--- x@, if @p x@ and equal to @wFalse x@ otherwise. The bound of this new
--- 'Write' is the maximum of the bounds for either 'Write'. This yields a data
--- independent bound, if the bound for @wTrue@ and @wFalse@ is already data
--- independent.
-{-# INLINE writeIf #-}
-writeIf :: (a -> Bool) -> (a -> Write) -> (a -> Write) -> (a -> Write)
-writeIf p wTrue wFalse x =
-    boundedWrite (max (getBound $ wTrue x) (getBound $ wFalse x))
-                 (if p x then getPoke $ wTrue x else getPoke $ wFalse x)
-
--- | Compare the value to a test value and use the first write action for the
--- equal case and the second write action for the non-equal case.
-{-# INLINE writeEq #-}
-writeEq :: Eq a => a -> (a -> Write) -> (a -> Write) -> (a -> Write)
-writeEq test = writeIf (test ==)
-
--- | TODO: Test this. It might well be too difficult to use.
---   FIXME: Better name required!
-{-# INLINE writeOrdering #-}
-writeOrdering :: (a -> Ordering)
-              -> (a -> Write) -> (a -> Write) -> (a -> Write)
-              -> (a -> Write)
-writeOrdering ord wLT wEQ wGT x =
-    boundedWrite bound (case ord x of LT -> getPoke $ wLT x;
-                                      EQ -> getPoke $ wEQ x;
-                                      GT -> getPoke $ wGT x)
-  where
-    bound = max (getBound $ wLT x) (max (getBound $ wEQ x) (getBound $ wGT x))
-
--- | A write combinator useful to build decision trees for deciding what value
--- to write with a constant bound on the maximal number of bytes written.
-{-# INLINE writeOrd #-}
-writeOrd :: Ord a
-       => a
-       -> (a -> Write) -> (a -> Write) -> (a -> Write)
-       -> (a -> Write)
-writeOrd test = writeOrdering (`compare` test)
-
 -- | Create a builder that execute a single 'Write'.
 {-# INLINE fromWrite #-}
 fromWrite :: Write -> Builder
@@ -233,65 +166,3 @@ fromWrite (Write maxSize wio) =
           let !br' = BufferRange op' ope
           k br'
       | otherwise = return $ bufferFull maxSize op (step k)
-
-{-# INLINE fromWriteSingleton #-}
-fromWriteSingleton :: (a -> Write) -> (a -> Builder)
-fromWriteSingleton write =
-    mkBuilder
-  where
-    mkBuilder x = builder step
-      where
-        step k (BufferRange op ope)
-          | op `plusPtr` maxSize <= ope = do
-              op' <- runPoke wio op
-              let !br' = BufferRange op' ope
-              k br'
-          | otherwise = return $ bufferFull maxSize op (step k)
-          where
-            Write maxSize wio = write x
-
-
--- | Construct a 'Builder' writing a list of data one element at a time.
-fromWriteList :: (a -> Write) -> [a] -> Builder
-fromWriteList write =
-    makeBuilder
-  where
-    makeBuilder xs0 = builder $ step xs0
-      where
-        step xs1 k !(BufferRange op0 ope0) = go xs1 op0
-          where
-            go [] !op = do
-               let !br' = BufferRange op ope0
-               k br'
-
-            go xs@(x':xs') !op
-              | op `plusPtr` maxSize <= ope0 = do
-                  !op' <- runPoke wio op
-                  go xs' op'
-              | otherwise = return $ bufferFull maxSize op (step xs k)
-              where
-                Write maxSize wio = write x'
-{-# INLINE fromWriteList #-}
-
-
-
-------------------------------------------------------------------------------
--- Writing storables
-------------------------------------------------------------------------------
-
-
--- | Write a storable value.
-{-# INLINE writeStorable #-}
-writeStorable :: Storable a => a -> Write
-writeStorable x = exactWrite (sizeOf x) (\op -> poke (castPtr op) x)
-
--- | A builder that serializes a storable value. No alignment is done.
-{-# INLINE fromStorable #-}
-fromStorable :: Storable a => a -> Builder
-fromStorable = fromWriteSingleton writeStorable
-
--- | A builder that serializes a list of storable values by writing them
--- consecutively. No alignment is done. Parsing information needs to be
--- provided externally.
-fromStorables :: Storable a => [a] -> Builder
-fromStorables = fromWriteList writeStorable
