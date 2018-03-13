@@ -27,7 +27,7 @@ Category:            Data, Network
 Build-type:          Simple
 Cabal-version:       >= 1.8
 
-Extra-source-files:  CHANGELOG.md,
+Extra-source-files:  CHANGELOG.md
 
 Source-repository head
   Type: git
