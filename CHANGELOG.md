@@ -3,7 +3,7 @@
 ## [0.0.0.1] – 2018-03-13
 
 - Documentation improvements
-- `text` dependency was removed
+- `text` and `deepseq` dependencies were removed
 
 ## 0 – 2018-03-12
 
