@@ -2,8 +2,8 @@ Name:                bsb-http-chunked
 Version:             0.0.0.1
 Synopsis:            Chunked HTTP transfer encoding for bytestring builders
 
-Description:         This library contains functions for encoding a [bytestring
-                     builder](https://hackage.haskell.org/package/bytestring/docs/Data-ByteString-Builder.html#t:Builder)
+Description:         This library contains functions for encoding [bytestring
+                     builders](https://hackage.haskell.org/package/bytestring/docs/Data-ByteString-Builder.html#t:Builder)
                      for [chunked HTTP\/1.1 transfer](https://en.wikipedia.org/wiki/Chunked_transfer_encoding).
 
                      This functionality was extracted from
@@ -27,7 +27,8 @@ Category:            Data, Network
 Build-type:          Simple
 Cabal-version:       >= 1.8
 
-Extra-source-files:  tests/*.hs
+Extra-source-files:  CHANGELOG.md,
+                     tests/*.hs
 
 Source-repository head
   Type: git
@@ -49,8 +50,7 @@ Library
   build-depends:     base >= 4.3 && < 4.12,
                      bytestring >= 0.9 && < 0.11,
                      bytestring-builder,
-                     deepseq,
-                     text >= 0.10 && < 1.3
+                     deepseq
 
 test-suite test
    -- Turn off until the package is cleaned up

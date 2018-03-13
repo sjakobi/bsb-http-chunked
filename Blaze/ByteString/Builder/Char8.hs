@@ -26,16 +26,12 @@ module Blaze.ByteString.Builder.Char8
     , fromChar
     , fromString
     , fromShow
-    , fromText
-    , fromLazyText
     ) where
 
 import Blaze.ByteString.Builder.Compat.Write ( Write, writePrimFixed )
 import           Data.ByteString.Builder ( Builder )
 import qualified Data.ByteString.Builder as B
 import qualified Data.ByteString.Builder.Prim as P
-import qualified Data.Text      as TS
-import qualified Data.Text.Lazy as TL
 
 -- | Write the lower 8-bits of a character to a buffer.
 writeChar :: Char -> Write
@@ -57,13 +53,3 @@ fromString = P.primMapListFixed P.char8
 fromShow :: Show a => a -> Builder
 fromShow = fromString . show
 {-# INLINE fromShow #-}
-
--- | /O(n)/. Serialize the lower 8-bits of all characters in the strict text.
-fromText :: TS.Text -> Builder
-fromText = fromString . TS.unpack
-{-# INLINE fromText #-}
-
--- | /O(n)/. Serialize the lower 8-bits of all characters in the lazy text.
-fromLazyText :: TL.Text -> Builder
-fromLazyText = fromString . TL.unpack
-{-# INLINE fromLazyText #-}
