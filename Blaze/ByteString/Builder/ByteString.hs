@@ -19,18 +19,7 @@
 module Blaze.ByteString.Builder.ByteString
     (
     -- * Strict bytestrings
-      writeByteString
-    , fromByteString
-    , fromByteStringWith
-    , copyByteString
-    , insertByteString
-
-    -- * Lazy bytestrings
-    , fromLazyByteString
-    , fromLazyByteStringWith
-    , copyLazyByteString
-    , insertLazyByteString
-
+      copyByteString
     ) where
 
 

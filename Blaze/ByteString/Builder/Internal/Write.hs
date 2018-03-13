@@ -22,29 +22,15 @@ module Blaze.ByteString.Builder.Internal.Write (
 
   -- * Writing to abuffer
   , Write(..)
-  , runWrite
-  , getBound
-  , getBound'
   , getPoke
 
   , exactWrite
   , boundedWrite
-  , writeLiftIO
-  , writeIf
-  , writeEq
-  , writeOrdering
-  , writeOrd
 
   -- * Constructing builders from writes
   , fromWrite
-  , fromWriteSingleton
-  , fromWriteList
 
   -- * Writing 'Storable's
-  , writeStorable
-  , fromStorable
-  , fromStorables
-
   ) where
 
 import Foreign

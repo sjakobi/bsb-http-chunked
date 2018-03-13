@@ -21,11 +21,6 @@ module Blaze.ByteString.Builder.Char8
     (
       -- * Writing Latin-1 (ISO 8859-1) encodable characters to a buffer
       writeChar
-
-      -- * Creating Builders from Latin-1 (ISO 8859-1) encodable characters
-    , fromChar
-    , fromString
-    , fromShow
     ) where
 
 import Blaze.ByteString.Builder.Compat.Write ( Write, writePrimFixed )

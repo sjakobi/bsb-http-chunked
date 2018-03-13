@@ -71,17 +71,12 @@ module Blaze.ByteString.Builder
 
       -- * Executing builders
     , B.toLazyByteString
-    , toLazyByteStringWith
-    , toByteString
-    , toByteStringIO
-    , toByteStringIOWith
 
     -- * 'Write's
     , W.Write
     , W.fromWrite
     , W.fromWriteSingleton
     , W.fromWriteList
-    , writeToByteString
 
     -- ** Writing 'Storable's
     , W.writeStorable

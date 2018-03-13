@@ -13,7 +13,6 @@
 module Blaze.ByteString.Builder.Compat.Write
     ( Write
     , writePrimFixed
-    , writePrimBounded
     ) where
 
 import Data.ByteString.Builder.Prim.Internal (BoundedPrim, FixedPrim

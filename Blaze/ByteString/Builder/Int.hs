@@ -46,7 +46,6 @@ module Blaze.ByteString.Builder.Int
     , fromInt8s
 
     -- ** Big-endian serialization
-    , fromInt16be            -- :: Int16   -> Builder
     , fromInt32be            -- :: Int32   -> Builder
     , fromInt64be            -- :: Int64   -> Builder
     , fromInt32sbe           -- :: [Int32] -> Builder
