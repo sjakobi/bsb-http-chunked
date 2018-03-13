@@ -58,8 +58,6 @@ import Data.Monoid (Monoid(..))
 import Data.Semigroup
 #endif
 
-import Prelude -- Silence redundant import warnings
-
 ------------------------------------------------------------------------------
 -- Poking a buffer and writing to a buffer
 ------------------------------------------------------------------------------
