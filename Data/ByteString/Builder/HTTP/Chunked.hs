@@ -107,7 +107,7 @@ chunkedTransferEncoding innerBuilder =
     transferEncodingStep k =
         go (runBuilder innerBuilder)
       where
-        go innerStep !(BufferRange op ope)
+        go innerStep (BufferRange op ope)
           -- FIXME: Assert that outRemaining < maxBound :: Word32
           | outRemaining < minimalBufferSize =
               return $ bufferFull minimalBufferSize op (go innerStep)

@@ -97,7 +97,7 @@ instance Semigroup Poke where
 
 instance Monoid Poke where
   {-# INLINE mempty #-}
-  mempty = Poke $ return
+  mempty = Poke return
 
 #if !(MIN_VERSION_base(4,11,0))
   {-# INLINE mappend #-}
