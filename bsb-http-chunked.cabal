@@ -3,11 +3,11 @@ Version:             0.0.0.1
 Synopsis:            Chunked HTTP transfer encoding for bytestring builders
 
 Description:         This library contains functions for encoding [bytestring
-                     builders](https://hackage.haskell.org/package/bytestring/docs/Data-ByteString-Builder.html#t:Builder)
+                     builders](http://hackage.haskell.org/package/bytestring/docs/Data-ByteString-Builder.html#t:Builder)
                      for [chunked HTTP\/1.1 transfer](https://en.wikipedia.org/wiki/Chunked_transfer_encoding).
-
+                     .
                      This functionality was extracted from
-                     the [blaze-builder](https://hackage.haskell.org/package/blaze-builder)
+                     the [blaze-builder](http://hackage.haskell.org/package/blaze-builder)
                      package.
 
 Author:              Jasper Van der Jeugt, Simon Meier, Leon P Smith
