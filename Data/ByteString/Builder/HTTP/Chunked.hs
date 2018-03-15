@@ -17,6 +17,10 @@ import GHC.Word (Word32(..))
 import Data.Word
 #endif
 
+#if !MIN_VERSION_base(4,8,0)
+import Data.Monoid
+#endif
+
 import Foreign
 
 import qualified Data.ByteString       as S
@@ -28,20 +32,11 @@ import Data.ByteString.Builder.Internal
 
 import qualified Blaze.ByteString.Builder.Char8 as Char8
 
-#if !MIN_VERSION_base(4,8,0)
-import Data.Monoid
-#endif
 
 
-{-# INLINE shiftr_w32 #-}
-shiftr_w32 :: Word32 -> Int -> Word32
-
-#if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
-shiftr_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftRL#`   i)
-#else
-shiftr_w32 = shiftR
-#endif
-
+------------------------------------------------------------------------------
+-- Write utils
+------------------------------------------------------------------------------
 
 -- | Write a CRLF sequence.
 writeCRLF :: Write
@@ -55,10 +50,17 @@ execWrite w op = do
     _ <- runPoke (getPoke w) op
     return ()
 
-
 ------------------------------------------------------------------------------
 -- Hex Encoding Infrastructure
 ------------------------------------------------------------------------------
+
+{-# INLINE shiftr_w32 #-}
+shiftr_w32 :: Word32 -> Int -> Word32
+#if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
+shiftr_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftRL#`   i)
+#else
+shiftr_w32 = shiftR
+#endif
 
 pokeWord32HexN :: Int -> Word32 -> Ptr Word8 -> IO ()
 pokeWord32HexN n0 w0 op0 =
