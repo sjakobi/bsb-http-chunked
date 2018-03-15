@@ -35,13 +35,7 @@ Source-repository head
 
 Library
   ghc-options:       -Wall
-
   exposed-modules:   Data.ByteString.Builder.HTTP.Chunked
-
-  other-modules:     Blaze.ByteString.Builder.Char8
-                     Blaze.ByteString.Builder.Compat.Write
-                     Blaze.ByteString.Builder.Internal.Write
-
   build-depends:     base >= 4.3 && < 4.12,
                      bytestring >= 0.9 && < 0.11,
                      bytestring-builder < 0.11

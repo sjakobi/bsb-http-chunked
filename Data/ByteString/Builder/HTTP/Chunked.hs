@@ -17,31 +17,113 @@ import GHC.Word (Word32(..))
 import Data.Word
 #endif
 
-#if !MIN_VERSION_base(4,8,0)
-import Data.Monoid
-#endif
+import Control.Monad
 
 import Foreign
 
-import qualified Data.ByteString       as S
-import Data.ByteString.Char8 ()
-
-import Blaze.ByteString.Builder.Internal.Write
+import qualified Data.ByteString as S
+import Data.ByteString.Char8 () -- for IsString instance
 import Data.ByteString.Builder
 import Data.ByteString.Builder.Internal
+import qualified Data.ByteString.Builder.Prim as P
+import Data.ByteString.Builder.Prim.Internal (FixedPrim)
+import qualified Data.ByteString.Builder.Prim.Internal as P
 
-import qualified Blaze.ByteString.Builder.Char8 as Char8
+------------------------------------------------------------------------------
+-- Poking a buffer
+------------------------------------------------------------------------------
 
+-- | Changing a sequence of bytes starting from the given pointer. 'Poke's are
+-- the most primitive buffer manipulation. In most cases, you don't use the
+-- explicitely but as part of a 'Write', which also tells how many bytes will
+-- be changed at most.
+newtype Poke =
+    Poke { runPoke :: Ptr Word8 -> IO (Ptr Word8) }
 
+-- | @mappend@ for 'Poke's
+{-# INLINE appendP #-}
+appendP :: Poke -> Poke -> Poke
+(Poke po1) `appendP` (Poke po2) = Poke $ po1 >=> po2
+
+-- | @pokeN size io@ creates a write that denotes the writing of @size@ bytes
+-- to a buffer using the IO action @io@. Note that @io@ MUST write EXACTLY @size@
+-- bytes to the buffer!
+{-# INLINE pokeN #-}
+pokeN :: Int -> (Ptr Word8 -> IO ()) -> Poke
+pokeN size io = Poke $ \op -> io op >> (return $! (op `plusPtr` size))
+
+------------------------------------------------------------------------------
+-- Write
+------------------------------------------------------------------------------
+
+-- | A write of a bounded number of bytes.
+--
+-- A general and efficient write type that allows for the easy construction of
+-- builders for (smallish) bounded size writes to a buffer.
+--
+-- When defining a function @write :: a -> Write@ for some @a@, then it is
+-- important to ensure that the bound on the number of bytes written is
+-- data-independent. Formally,
+--
+--  @ forall x y. getBound (write x) = getBound (write y) @
+--
+-- The idea is that this data-independent bound is specified such that the
+-- compiler can optimize the check, if there are enough free bytes in the buffer,
+-- to a single subtraction between the pointer to the next free byte and the
+-- pointer to the end of the buffer with this constant bound of the maximal
+-- number of bytes to be written.
+data Write = Write {-# UNPACK #-} !Int Poke
+
+-- | @mappend@ for 'Write's
+{-# INLINE appendW #-}
+appendW :: Write -> Write -> Write
+(Write bound1 w1) `appendW` (Write bound2 w2) =
+    Write (bound1 + bound2) (w1 `appendP` w2)
+
+-- | Extract the 'Poke' action of a write.
+{-# INLINE getPoke #-}
+getPoke :: Write -> Poke
+getPoke (Write _ wio) = wio
+
+-- | @exactWrite size io@ creates a bounded write that can later be converted to
+-- a builder that writes exactly @size@ bytes. Note that @io@ MUST write
+-- EXACTLY @size@ bytes to the buffer!
+{-# INLINE exactWrite #-}
+exactWrite :: Int -> (Ptr Word8 -> IO ()) -> Write
+exactWrite size io = Write size (pokeN size io)
+
+------------------------------------------------------------------------------
+-- Converting 'Write's to 'Builder's
+------------------------------------------------------------------------------
+
+-- | Create a builder that execute a single 'Write'.
+{-# INLINE fromWrite #-}
+fromWrite :: Write -> Builder
+fromWrite (Write maxSize wio) =
+    builder step
+  where
+    step k (BufferRange op ope)
+      | op `plusPtr` maxSize <= ope = do
+          op' <- runPoke wio op
+          let !br' = BufferRange op' ope
+          k br'
+      | otherwise = return $ bufferFull maxSize op (step k)
 
 ------------------------------------------------------------------------------
 -- Write utils
 ------------------------------------------------------------------------------
 
 -- | Write a CRLF sequence.
-writeCRLF :: Write
-writeCRLF = Char8.writeChar '\r' `mappend` Char8.writeChar '\n'
 {-# INLINE writeCRLF #-}
+writeCRLF :: Write
+writeCRLF = writeChar8 '\r' `appendW` writeChar8 '\n'
+  where
+    writeChar8 :: Char -> Write
+    writeChar8 = writePrimFixed P.char8
+
+{-# INLINE writePrimFixed #-}
+writePrimFixed :: FixedPrim a -> a -> Write
+writePrimFixed fe a = exactWrite (P.size fe) (P.runF fe a)
 
 -- | Execute a write
 {-# INLINE execWrite #-}
@@ -91,7 +173,7 @@ word32HexLength = max 1 . iterationsUntilZero (`shiftr_w32` 4)
 
 writeWord32Hex :: Word32 -> Write
 writeWord32Hex w =
-    boundedWrite (2 * sizeOf w) (pokeN len $ pokeWord32HexN len w)
+    Write (2 * sizeOf w) (pokeN len $ pokeWord32HexN len w)
   where
     len = word32HexLength w
 {-# INLINE writeWord32Hex #-}
@@ -156,7 +238,7 @@ chunkedTransferEncoding innerBuilder =
                           -- FIXME: assert(S.length bs < maxBound :: Word32)
                           !op'' <- (`runPoke` op') $ getPoke $
                               writeWord32Hex (fromIntegral $ S.length bs)
-                              `mappend` writeCRLF
+                              `appendW` writeCRLF
 
                           -- insert bytestring and write CRLF in next buildstep
                           return $! insertChunk
