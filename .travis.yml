@@ -41,6 +41,11 @@ env:
   - PACKCHECK_GITHUB_URL="https://raw.githubusercontent.com/harendra-kumar/packcheck"
   - PACKCHECK_GITHUB_COMMIT="437800a90f3b469b04768af068094d2ac582f351"
 
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
 # This matrix has total of 6 builds enabled, we try to cover last three major
 # GHC versions, stack, cabal, Linux and OSX with minimum number of builds
 # possible. You can uncomment other disabled builds or comment out existing
