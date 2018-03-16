@@ -8,3 +8,7 @@ dist-newstyle/
 *.ghc.environment*
 cabal.project.local
 cabal.project.freeze
+.cabal-sandbox/
+.packcheck/
+*.swp
+cabal.sandbox.config
