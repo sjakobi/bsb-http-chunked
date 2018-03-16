@@ -18,15 +18,14 @@ import Data.Word
 #endif
 
 import Control.Monad
-
 import Foreign
 
-import qualified Data.ByteString as S
-import Data.ByteString.Char8 () -- for IsString instance
-import Data.ByteString.Builder
-import Data.ByteString.Builder.Internal
-import qualified Data.ByteString.Builder.Prim as P
-import Data.ByteString.Builder.Prim.Internal (FixedPrim)
+import qualified Data.ByteString                       as S
+import           Data.ByteString.Char8                 () -- for IsString instance
+import           Data.ByteString.Builder.Internal      (Builder, BufferRange(..), BuildSignal)
+import qualified Data.ByteString.Builder.Internal      as B
+import qualified Data.ByteString.Builder.Prim          as P
+import           Data.ByteString.Builder.Prim.Internal (FixedPrim)
 import qualified Data.ByteString.Builder.Prim.Internal as P
 
 ------------------------------------------------------------------------------
@@ -100,14 +99,14 @@ exactWrite size io = Write size (pokeN size io)
 {-# INLINE fromWrite #-}
 fromWrite :: Write -> Builder
 fromWrite (Write maxSize wio) =
-    builder step
+    B.builder step
   where
     step k (BufferRange op ope)
       | op `plusPtr` maxSize <= ope = do
           op' <- runPoke wio op
           let !br' = BufferRange op' ope
           k br'
-      | otherwise = return $ bufferFull maxSize op (step k)
+      | otherwise = return $ B.bufferFull maxSize op (step k)
 
 ------------------------------------------------------------------------------
 -- Write utils
@@ -117,9 +116,7 @@ fromWrite (Write maxSize wio) =
 {-# INLINE writeCRLF #-}
 writeCRLF :: Write
 writeCRLF = writeChar8 '\r' `appendW` writeChar8 '\n'
-  where
-    writeChar8 :: Char -> Write
-    writeChar8 = writePrimFixed P.char8
+  where writeChar8 = writePrimFixed P.char8
 
 {-# INLINE writePrimFixed #-}
 writePrimFixed :: FixedPrim a -> a -> Write
@@ -128,9 +125,7 @@ writePrimFixed fe a = exactWrite (P.size fe) (P.runF fe a)
 -- | Execute a write
 {-# INLINE execWrite #-}
 execWrite :: Write -> Ptr Word8 -> IO ()
-execWrite w op = do
-    _ <- runPoke (getPoke w) op
-    return ()
+execWrite w op = runPoke (getPoke w) op >> return ()
 
 ------------------------------------------------------------------------------
 -- Hex Encoding Infrastructure
@@ -178,7 +173,6 @@ writeWord32Hex w =
     len = word32HexLength w
 {-# INLINE writeWord32Hex #-}
 
-
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
 ------------------------------------------------------------------------------
@@ -186,15 +180,15 @@ writeWord32Hex w =
 -- | Transform a builder such that it uses chunked HTTP transfer encoding.
 chunkedTransferEncoding :: Builder -> Builder
 chunkedTransferEncoding innerBuilder =
-    builder transferEncodingStep
+    B.builder transferEncodingStep
   where
     transferEncodingStep k =
-        go (runBuilder innerBuilder)
+        go (B.runBuilder innerBuilder)
       where
         go innerStep (BufferRange op ope)
           -- FIXME: Assert that outRemaining < maxBound :: Word32
           | outRemaining < minimalBufferSize =
-              return $ bufferFull minimalBufferSize op (go innerStep)
+              return $ B.bufferFull minimalBufferSize op (go innerStep)
           | otherwise = do
               let !brInner@(BufferRange opInner _) = BufferRange
                      (op  `plusPtr` (chunkSizeLength + 2))     -- leave space for chunk header
@@ -222,7 +216,7 @@ chunkedTransferEncoding innerBuilder =
 
                   fullH opInner' minRequiredSize nextInnerStep =
                       wrapChunk opInner' $ \op' ->
-                        return $! bufferFull
+                        return $! B.bufferFull
                           (minRequiredSize + maxEncodingOverhead)
                           op'
                           (go nextInnerStep)
@@ -230,7 +224,7 @@ chunkedTransferEncoding innerBuilder =
                   insertChunkH opInner' bs nextInnerStep
                     | S.null bs =                         -- flush
                         wrapChunk opInner' $ \op' ->
-                          return $! insertChunk op' S.empty (go nextInnerStep)
+                          return $! B.insertChunk op' S.empty (go nextInnerStep)
 
                     | otherwise =                         -- insert non-empty bytestring
                         wrapChunk opInner' $ \op' -> do
@@ -241,12 +235,12 @@ chunkedTransferEncoding innerBuilder =
                               `appendW` writeCRLF
 
                           -- insert bytestring and write CRLF in next buildstep
-                          return $! insertChunk
+                          return $! B.insertChunk
                             op'' bs
-                            (runBuilderWith (fromWrite writeCRLF) $ go nextInnerStep)
+                            (B.runBuilderWith (fromWrite writeCRLF) $ go nextInnerStep)
 
               -- execute inner builder with reduced boundaries
-              fillWithBuildStep innerStep doneH fullH insertChunkH brInner
+              B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
           where
             -- minimal size guaranteed for actual data no need to require more
             -- than 1 byte to guarantee progress the larger sizes will be
@@ -268,7 +262,6 @@ chunkedTransferEncoding innerBuilder =
             outRemaining    = ope `minusPtr` op
             chunkSizeLength = word32HexLength $ fromIntegral outRemaining
 
-
 -- | The zero-length chunk '0\r\n\r\n' signaling the termination of the data transfer.
 chunkedTransferTerminator :: Builder
-chunkedTransferTerminator = byteStringCopy "0\r\n\r\n"
+chunkedTransferTerminator = B.byteStringCopy "0\r\n\r\n"
