@@ -22,7 +22,8 @@ import Foreign
 
 import qualified Data.ByteString                       as S
 import           Data.ByteString.Char8                 () -- for IsString instance
-import           Data.ByteString.Builder.Internal      (Builder, BufferRange(..), BuildSignal)
+import           Data.ByteString.Builder               (Builder)
+import           Data.ByteString.Builder.Internal      (BufferRange(..), BuildSignal)
 import qualified Data.ByteString.Builder.Internal      as B
 import qualified Data.ByteString.Builder.Prim          as P
 import           Data.ByteString.Builder.Prim.Internal (FixedPrim)
