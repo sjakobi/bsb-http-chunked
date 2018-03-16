@@ -66,6 +66,7 @@ matrix:
 
   # Nightly
   - env: BUILD=stack RESOLVER=nightly
+    addons: {apt: {packages: [cabal-install-2.2], sources: [hvr-ghc]}}
 
   # Using a custom stack-yaml config file.
   #- env: BUILD=stack STACK_YAML=.ci/stack-8.0.yaml
