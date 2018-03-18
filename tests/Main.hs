@@ -51,7 +51,7 @@ genSnippedS = do
       where m = S.length bs - n
 
 genPackedS :: Gen ByteString
-genPackedS = S.replicate <$> Gen.int (Range.linear 0 (maxSafeBsSize + 2000)) <*> Gen.enumBounded
+genPackedS = S.pack <$> Gen.list (Range.linear 0 (maxSafeBsSize + 2000)) Gen.enumBounded
 
 -- | FIXME: Some larger inputs break the parser.
 -- See https://github.com/sjakobi/bsb-http-chunked/issues/9
