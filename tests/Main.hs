@@ -15,10 +15,9 @@ import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
 import Test.Tasty
 import Test.Tasty.Hedgehog
-import Test.Tasty.HUnit (testCase, (@?=))
 
 main :: IO ()
-main = defaultMain $ testGroup "Tests" [properties, unitTests]
+main = defaultMain $ properties
 
 properties :: TestTree
 properties = testGroup "Properties"
@@ -47,7 +46,7 @@ genSnippedBS = do
       where m = BS.length bs - n
 
 genPackedBS :: Gen ByteString
-genPackedBS = BS.pack <$> Gen.list (Range.linear 0 1000) (Gen.word8 Range.constantBounded)
+genPackedBS = BS.pack <$> Gen.list (Range.linear 0 10000) (Gen.word8 Range.constantBounded)
 
 parseTransferChunks :: BL.ByteString -> Either String BL.ByteString
 parseTransferChunks = fmap (BL.fromChunks . concat) .
@@ -79,9 +78,3 @@ transferChunkParser = parser <?> "encodedChunkParser"
     mAX_CHUNK_SIZE = 2^(18::Int)
 
     crlf = A.string "\r\n"
-
-unitTests :: TestTree
-unitTests = testGroup "Unit tests"
-  [ testCase "Encoding an empty builder returns an empty builder" $
-      BB.toLazyByteString (chunkedTransferEncoding mempty) @?= ""
-  ]
