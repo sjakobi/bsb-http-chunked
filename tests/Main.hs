@@ -5,6 +5,7 @@ import Data.Attoparsec.ByteString.Char8 (Parser, (<?>))
 import qualified Data.Attoparsec.ByteString.Char8 as A
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Internal as BSI
 import qualified Data.ByteString.Builder as BB
 import Data.ByteString.Builder.HTTP.Chunked
 import qualified Data.ByteString.Lazy as BL
@@ -12,23 +13,31 @@ import Data.Foldable
 import Data.Functor
 import Hedgehog
 import qualified Hedgehog.Gen as Gen
+import qualified Hedgehog.Internal.Shrink as Shrink
 import qualified Hedgehog.Range as Range
 import Test.Tasty
 import Test.Tasty.Hedgehog
 
 main :: IO ()
+main = defaultMain $ testGroup "properties" [testProperty "roundtrips" prop_roundtrips]
+{-
 main = do
   _ <- checkSequential $ Group "props" [("roundtrips", prop_roundtrips)]
   return ()
+-}
 
+prop_roundtrips :: Property
 prop_roundtrips = property $ do
-      lbs <- forAll genLBS
+      lbs <- forAllWith (show . map showByteStringInternals . BL.toChunks) genLBS
       tripping lbs
-               (BB.toLazyByteString . chunkedTransferEncoding . BB.lazyByteString)
+               (BL.toChunks . BB.toLazyByteString . chunkedTransferEncoding . BB.lazyByteString)
                parseTransferChunks
 
+showByteStringInternals :: ByteString -> String
+showByteStringInternals (BSI.PS fptr off len) = "PS " ++ show fptr ++ " " ++ show off ++ " " ++ show len
+
 genLBS :: Gen BL.ByteString
-genLBS = BL.fromChunks <$> genBSs
+genLBS = Gen.shrink (map BL.fromChunks . Shrink.list . BL.toChunks) (Gen.prune (BL.fromChunks <$> genBSs))
 
 genBSs :: Gen [ByteString]
 genBSs = Gen.list (Range.linear 0 5) genSnippedBS
@@ -43,12 +52,14 @@ genSnippedBS = do
       where m = BS.length bs - n
 
 genPackedBS :: Gen ByteString
-genPackedBS = BS.pack <$> Gen.list (Range.linear 0 10000) (Gen.word8 Range.constantBounded)
+genPackedBS = Gen.constant (BS.replicate 8161 95)
+--genPackedBS = BS.pack <$> Gen.list (Range.linear 0 8160) (pure 95 {- '_' -}) -- 8161 is the first bad length
 
-parseTransferChunks :: BL.ByteString -> Either String BL.ByteString
+
+
+parseTransferChunks :: [ByteString] -> Either String BL.ByteString
 parseTransferChunks = fmap (BL.fromChunks . concat) .
-                      traverse (A.eitherResult . fmap toList . A.parse transferChunkParser) .
-                      BL.toChunks
+                      traverse (A.eitherResult . fmap toList . A.parse transferChunkParser)
 
 -- Adapted from snap-server
 transferChunkParser :: Parser (Maybe ByteString)

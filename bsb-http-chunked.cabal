@@ -46,6 +46,7 @@ test-suite tests
   hs-source-dirs: tests
   build-depends:   attoparsec
                  , base
+                 , blaze-builder
                  , bsb-http-chunked
                  , bytestring
                  , bytestring-builder
