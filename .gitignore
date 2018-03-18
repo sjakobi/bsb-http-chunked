@@ -12,3 +12,7 @@ cabal.project.freeze
 .packcheck/
 *.swp
 cabal.sandbox.config
+*.prof
+*.svg
+*.log
+*.hp
