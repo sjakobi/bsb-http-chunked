@@ -16,12 +16,10 @@ import Hedgehog
 import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
 import Test.Tasty
-import Test.Tasty.ExpectedFailure
 import Test.Tasty.Hedgehog
-import Test.Tasty.HUnit (testCase, (@?=))
 
 main :: IO ()
-main = defaultMain $ testGroup "Tests" [properties, unitTests]
+main = defaultMain $ testGroup "Tests" [properties]
 
 chunkedTransferEncodingL :: L.ByteString -> L.ByteString
 chunkedTransferEncodingL = B.toLazyByteString . chunkedTransferEncoding . B.lazyByteString
@@ -53,7 +51,7 @@ genSnippedS = do
       where m = S.length bs - n
 
 genPackedS :: Gen ByteString
-genPackedS = S.replicate <$> Gen.int (Range.linear 0 maxSafeBsSize) <*> (Gen.constant 95)
+genPackedS = S.replicate <$> Gen.int (Range.linear 0 (maxSafeBsSize + 2000)) <*> Gen.enumBounded
 
 -- | FIXME: Some larger inputs break the parser.
 -- See https://github.com/sjakobi/bsb-http-chunked/issues/9
@@ -90,12 +88,3 @@ transferChunkParser = parser <?> "encodedChunkParser"
     mAX_CHUNK_SIZE = 2^(18::Int)
 
     crlf = A.string "\r\n"
-
-unitTests :: TestTree
-unitTests = testGroup "Unit tests"
-  [ testCase "Encoding an empty builder returns an empty builder" $
-      chunkedTransferEncodingL "" @?= ""
-  , expectFailBecause "#9" $ testCase "Encoding a bytestring of size 8161 keeps the chunk-correspondence invariant" $ do
-      let s = L.fromChunks [S.replicate 8161 95]
-      parseTransferChunks (chunkedTransferEncodingL s) @?= Right s
-  ]
