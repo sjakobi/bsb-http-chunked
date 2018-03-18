@@ -17,18 +17,15 @@ import Test.Tasty
 import Test.Tasty.Hedgehog
 
 main :: IO ()
-main = defaultMain $ properties
+main = do
+  _ <- checkSequential $ Group "props" [("roundtrips", prop_roundtrips)]
+  return ()
 
-properties :: TestTree
-properties = testGroup "Properties"
-  [ p "Encoding and decoding roundtrips" $ do
+prop_roundtrips = property $ do
       lbs <- forAll genLBS
       tripping lbs
                (BB.toLazyByteString . chunkedTransferEncoding . BB.lazyByteString)
                parseTransferChunks
-  ]
-  where
-    p name = testProperty name . property
 
 genLBS :: Gen BL.ByteString
 genLBS = BL.fromChunks <$> genBSs
