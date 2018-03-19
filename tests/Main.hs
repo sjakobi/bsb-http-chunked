@@ -3,20 +3,21 @@ module Main where
 
 import qualified Data.ByteString.Builder as B
 
+import Control.Applicative
 import Data.Attoparsec.ByteString.Char8 (Parser, (<?>))
 import qualified Data.Attoparsec.ByteString.Char8 as A
+import qualified Data.Attoparsec.ByteString.Lazy as AL
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as S
 import Data.ByteString.Builder.HTTP.Chunked
 import qualified Data.ByteString.Lazy as L
-import Data.Foldable
 import Data.Functor
+import Data.Maybe
 
 import Hedgehog
 import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
 import Test.Tasty
-import Test.Tasty.ExpectedFailure
 import Test.Tasty.Hedgehog
 import Test.Tasty.HUnit (testCase, (@?=))
 
@@ -41,7 +42,7 @@ genLS :: Gen L.ByteString
 genLS = L.fromChunks <$> genSs
 
 genSs :: Gen [ByteString]
-genSs = Gen.list (Range.linear 0 3) genSnippedS
+genSs = Gen.list (Range.linear 0 10) genSnippedS
 
 genSnippedS :: Gen ByteString
 genSnippedS = do
@@ -53,17 +54,12 @@ genSnippedS = do
       where m = S.length bs - n
 
 genPackedS :: Gen ByteString
-genPackedS = S.replicate <$> Gen.int (Range.linear 0 maxSafeBsSize) <*> (Gen.constant 95)
-
--- | FIXME: Some larger inputs break the parser.
--- See https://github.com/sjakobi/bsb-http-chunked/issues/9
-maxSafeBsSize :: Int
-maxSafeBsSize = 8160
+genPackedS = S.replicate <$> Gen.int (Range.linear 0 mAX_CHUNK_SIZE) <*> Gen.enumBounded
 
 parseTransferChunks :: L.ByteString -> Either String L.ByteString
-parseTransferChunks = fmap (L.fromChunks . concat) .
-                      traverse (A.eitherResult . fmap toList . A.parse transferChunkParser) .
-                      L.toChunks
+parseTransferChunks = AL.eitherResult .
+                      fmap (L.fromChunks . catMaybes) .
+                      AL.parse (many transferChunkParser)
 
 -- Adapted from snap-server
 transferChunkParser :: Parser (Maybe ByteString)
@@ -73,7 +69,7 @@ transferChunkParser = parser <?> "encodedChunkParser"
         hex <- A.hexadecimal <?> "hexadecimal"
         -- skipWhile (/= '\r') <?> "skipToEOL" -- We don't add chunk extensions
         void crlf <?> "linefeed"
-        if | hex >= mAX_CHUNK_SIZE
+        if | hex > mAX_CHUNK_SIZE
             -> fail $ "Chunk of size " ++ show hex ++
                  " is too long. Max chunk size is " ++ show mAX_CHUNK_SIZE
            | hex < 0
@@ -86,16 +82,14 @@ transferChunkParser = parser <?> "encodedChunkParser"
                 void crlf <?> "linefeed after data chunk"
                 return $! Just x
 
-    -- Chunks larger than this may indicate denial-of-service attack.
-    mAX_CHUNK_SIZE = 2^(18::Int)
-
     crlf = A.string "\r\n"
+
+-- Chunks larger than this may indicate denial-of-service attack.
+mAX_CHUNK_SIZE :: Int
+mAX_CHUNK_SIZE = 256 * 1024 - 1
 
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
   [ testCase "Encoding an empty builder returns an empty builder" $
       chunkedTransferEncodingL "" @?= ""
-  , expectFailBecause "#9" $ testCase "Encoding a bytestring of size 8161 keeps the chunk-correspondence invariant" $ do
-      let s = L.fromChunks [S.replicate 8161 95]
-      parseTransferChunks (chunkedTransferEncodingL s) @?= Right s
   ]
