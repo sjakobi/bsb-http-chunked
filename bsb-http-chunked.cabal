@@ -44,7 +44,7 @@ Library
 
 test-suite tests
   type: exitcode-stdio-1.0
-  main-is: Main.hs
+  main-is: Tests.hs
   hs-source-dirs: tests
   build-depends:   attoparsec
                  , base
@@ -58,3 +58,11 @@ test-suite tests
   ghc-options: -Wall -rtsopts
   if impl(ghc < 7.10)
     buildable: False
+
+test-suite doctests
+  type: exitcode-stdio-1.0
+  main-is: Doctests.hs
+  hs-source-dirs: tests
+  build-depends:   base
+                 , doctest >= 0.8
+  ghc-options: -Wall

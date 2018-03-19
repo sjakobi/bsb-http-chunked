@@ -28,6 +28,7 @@ import qualified Data.ByteString.Builder.Internal      as B
 import qualified Data.ByteString.Builder.Prim          as P
 import           Data.ByteString.Builder.Prim.Internal (FixedPrim)
 import qualified Data.ByteString.Builder.Prim.Internal as P
+import           Data.ByteString.Lazy.Char8            () -- for IsString instance
 
 ------------------------------------------------------------------------------
 -- Poking a buffer
@@ -180,6 +181,15 @@ writeWord32Hex w =
 
 -- | Transform a builder such that it uses chunked HTTP transfer encoding.
 --
+-- >>> :set -XOverloadedStrings
+-- >>> import Data.ByteString.Builder as B
+-- >>> let f = B.toLazyByteString . chunkedTransferEncoding . B.lazyByteString
+-- >>> f "data"
+-- "004\r\ndata\r\n"
+--
+-- >>> f ""
+-- ""
+--
 -- /Note/: While for many inputs, the bytestring chunks that can be obtained from the output
 -- via @'Data.ByteString.Lazy.toChunks' . 'Data.ByteString.Builder.toLazyByteString'@
 -- each form a chunk in the sense
@@ -269,6 +279,6 @@ chunkedTransferEncoding innerBuilder =
             outRemaining    = ope `minusPtr` op
             chunkSizeLength = word32HexLength $ fromIntegral outRemaining
 
--- | The zero-length chunk '0\r\n\r\n' signaling the termination of the data transfer.
+-- | The zero-length chunk @0\\r\\n\\r\\n@ signaling the termination of the data transfer.
 chunkedTransferTerminator :: Builder
 chunkedTransferTerminator = B.byteStringCopy "0\r\n\r\n"

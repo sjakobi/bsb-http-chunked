@@ -1,5 +1,9 @@
 # Changelog for the `bsb-http-chunked` package
 
+## [Unreleased]:
+
+- Documentation improvements
+
 ## [0.0.0.2] – 2018-03-13
 
 - A lot of unused code was removed
