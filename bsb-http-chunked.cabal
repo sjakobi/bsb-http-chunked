@@ -43,9 +43,8 @@ Library
     ghc-options:     -Wcompat
 
 test-suite tests
-  type: exitcode-stdio-1.0
-  main-is: Tests.hs
   hs-source-dirs: tests
+  main-is: Tests.hs
   build-depends:   attoparsec
                  , base
                  , bsb-http-chunked
@@ -58,11 +57,25 @@ test-suite tests
   ghc-options: -Wall -rtsopts
   if impl(ghc < 7.10)
     buildable: False
+  type: exitcode-stdio-1.0
 
 test-suite doctests
-  type: exitcode-stdio-1.0
-  main-is: Doctests.hs
   hs-source-dirs: tests
+  main-is: Doctests.hs
   build-depends:   base
                  , doctest >= 0.8
   ghc-options: -Wall
+  type: exitcode-stdio-1.0
+
+benchmark bench
+  hs-source-dirs: bench
+  main-is: Bench.hs
+  build-depends:   base
+                 , blaze-builder
+                 , bsb-http-chunked
+                 , bytestring
+                 , deepseq
+                 , gauge
+                 , semigroups
+  ghc-options: -O2 -Wall -rtsopts
+  type: exitcode-stdio-1.0
