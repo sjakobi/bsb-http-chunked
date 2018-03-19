@@ -70,8 +70,8 @@ matrix:
   #  addons: {apt: {packages: [cabal-install-2.0,ghc-8.2.2], sources: [hvr-ghc]}}
 
   # Nightly
-  - env: BUILD=stack RESOLVER=nightly
-    addons: {apt: {packages: [cabal-install-2.2], sources: [hvr-ghc]}}
+  - env: BUILD=stack RESOLVER=nightly CABALVER=1.24
+    addons: {apt: {packages: [cabal-install-1.24], sources: [hvr-ghc]}}
 
   # Using a custom stack-yaml config file.
   #- env: BUILD=stack STACK_YAML=.ci/stack-8.0.yaml
