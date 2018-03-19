@@ -179,6 +179,12 @@ writeWord32Hex w =
 ------------------------------------------------------------------------------
 
 -- | Transform a builder such that it uses chunked HTTP transfer encoding.
+--
+-- /Note/: While for many inputs, the bytestring chunks that can be obtained from the output
+-- via @'Data.ByteString.Lazy.toChunks' . 'Data.ByteString.Builder.toLazyByteString'@
+-- each form a chunk in the sense
+-- of [RFC 7230 Section 4.1](https://tools.ietf.org/html/rfc7230#section-4.1),
+-- this correspondence doesn't hold in general.
 chunkedTransferEncoding :: Builder -> Builder
 chunkedTransferEncoding innerBuilder =
     B.builder transferEncodingStep
