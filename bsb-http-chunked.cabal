@@ -10,10 +10,11 @@ Description:         This library contains functions for encoding [bytestring
                      the [blaze-builder](http://hackage.haskell.org/package/blaze-builder)
                      package.
 
-Author:              Jasper Van der Jeugt, Simon Meier, Leon P Smith
+Author:              Jasper Van der Jeugt, Simon Meier, Leon P Smith, Simon Jakobi
 Copyright:           (c) 2010-2014 Simon Meier
                      (c) 2010 Jasper Van der Jeugt
                      (c) 2013-2015 Leon P Smith
+                     (c) 2018 Simon Jakobi
 Maintainer:          Simon Jakobi <simon.jakobi@gmail.com>
 
 License:             BSD3
@@ -38,7 +39,7 @@ Library
   build-depends:     base >= 4.3 && < 4.12,
                      bytestring >= 0.9 && < 0.11,
                      bytestring-builder < 0.11
-  ghc-options:       -Wall
+  ghc-options:       -Wall -O2
   if impl(ghc >= 8.0)
     ghc-options:     -Wcompat
 

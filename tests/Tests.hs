@@ -54,7 +54,7 @@ genSnippedS = do
       where m = S.length bs - n
 
 genPackedS :: Gen ByteString
-genPackedS = S.replicate <$> Gen.int (Range.linear 0 mAX_CHUNK_SIZE) <*> Gen.enumBounded
+genPackedS = S.replicate <$> Gen.int (Range.linear 0 mAX_CHUNK_SIZE) <*> Gen.word8 (Range.constantFrom 95 0 255)
 
 parseTransferChunks :: L.ByteString -> Either String L.ByteString
 parseTransferChunks = AL.eitherResult .
