@@ -49,6 +49,7 @@ test-suite tests
   build-depends:   attoparsec
                  , base
                  , bsb-http-chunked
+                 , blaze-builder >= 0.2.1.4
                  , bytestring
                  , bytestring-builder
                  , hedgehog

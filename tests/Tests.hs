@@ -7,6 +7,7 @@ import Control.Applicative
 import Data.Attoparsec.ByteString.Char8 (Parser, (<?>))
 import qualified Data.Attoparsec.ByteString.Char8 as A
 import qualified Data.Attoparsec.ByteString.Lazy as AL
+import qualified Blaze.ByteString.Builder.HTTP as Blaze
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as S
 import Data.ByteString.Builder.HTTP.Chunked
@@ -27,6 +28,9 @@ main = defaultMain $ testGroup "Tests" [properties, unitTests]
 chunkedTransferEncodingL :: L.ByteString -> L.ByteString
 chunkedTransferEncodingL = B.toLazyByteString . chunkedTransferEncoding . B.lazyByteString
 
+chunkedTransferEncodingLBlaze :: L.ByteString -> L.ByteString
+chunkedTransferEncodingLBlaze = B.toLazyByteString . Blaze.chunkedTransferEncoding . B.lazyByteString
+
 properties :: TestTree
 properties = testGroup "Properties"
   [ p "Encoding and parsing roundtrips" $ do
@@ -34,6 +38,11 @@ properties = testGroup "Properties"
       tripping lbs
                chunkedTransferEncodingL
                parseTransferChunks
+    -- This is about detecting differences in output,
+    -- not about bug-to-bug compatibility.
+  , p "Identical output as Blaze" $ do
+      lbs <- forAll genLS
+      chunkedTransferEncodingL lbs === chunkedTransferEncodingLBlaze lbs
   ]
   where
     p name = testProperty name . property
