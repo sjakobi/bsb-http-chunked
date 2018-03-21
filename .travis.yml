@@ -38,8 +38,8 @@ env:
   - PACKCHECK_LOCAL_PATH="./packcheck.sh"
   # If you have not committed packcheck.sh in your repo at PACKCHECK_LOCAL_PATH
   # then it is automatically pulled from this URL.
-  - PACKCHECK_GITHUB_URL="https://raw.githubusercontent.com/sjakobi/packcheck"
-  - PACKCHECK_GITHUB_COMMIT="841fd0f15966366cf34f961c6d46a2dea79e3910"
+  - PACKCHECK_GITHUB_URL="https://raw.githubusercontent.com/harendra-kumar/packcheck"
+  - PACKCHECK_GITHUB_COMMIT="ab08f0c5c574e056d37f016ca79a611030862557"
 
 notifications:
   email:
@@ -70,7 +70,7 @@ matrix:
   #  addons: {apt: {packages: [cabal-install-2.0,ghc-8.2.2], sources: [hvr-ghc]}}
 
   # Nightly
-  - env: BUILD=stack RESOLVER=nightly CABALVER=1.24
+  - env: BUILD=stack RESOLVER=nightly
     addons: {apt: {packages: [cabal-install-1.24], sources: [hvr-ghc]}}
 
   # Using a custom stack-yaml config file.
