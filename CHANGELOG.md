@@ -2,6 +2,7 @@
 
 ## [Unreleased]:
 
+- Support chunks of up to 16 TB.
 - Documentation improvements
 
 ## [0.0.0.2] – 2018-03-13
