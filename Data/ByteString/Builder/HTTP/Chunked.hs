@@ -11,7 +11,8 @@ import           Control.Applicative                   (pure)
 import           Control.Monad                         (void)
 import           Foreign                               (Ptr, Word8, (.&.))
 import qualified Foreign                               as F
-import           GHC.Base                              (Int(..), Word(..), uncheckedShiftRL#)
+import           GHC.Base                              (Int(..), uncheckedShiftRL#)
+import           GHC.Word                              (Word(..))
 
 import qualified Data.ByteString                       as S
 import           Data.ByteString.Builder               (Builder)
