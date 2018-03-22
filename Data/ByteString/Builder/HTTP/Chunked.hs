@@ -172,16 +172,18 @@ chunkedTransferEncoding innerBuilder =
               -- execute inner builder with reduced boundaries
               B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
 
--- | Minimal size guaranteed for actual data. No need to require more
--- than 1 byte to guarantee progress. The larger sizes will be
--- hopefully provided by the driver or requested by the wrapped builders.
-minimalChunkSize :: Int
-minimalChunkSize = 1
+-- | Minimal useful buffer size
+minimalBufferSize :: Int
+minimalBufferSize = minimalChunkSize + maxEncodingOverhead
+  where
+    -- Minimal size guaranteed for actual data. No need to require more
+    -- than 1 byte to guarantee progress. The larger sizes will be
+    -- hopefully provided by the driver or requested by the wrapped builders.
+    minimalChunkSize = 1
 
--- | Enough bytes to write the hex size for a chunk of the size of your entire
---  memory (on 32-bit platforms) or 16 TB on 64-bit platforms.
-maxConceivableChunkSizeLength :: Int
-maxConceivableChunkSizeLength = (2 * F.sizeOf (undefined :: Word)) `min` 11
+-- | Overhead before and after buffer
+maxEncodingOverhead :: Int
+maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
 
 -- | Max chunk size and CRLF after header
 maxBeforeBufferOverhead :: Int
@@ -191,13 +193,14 @@ maxBeforeBufferOverhead = maxConceivableChunkSizeLength + 2
 maxAfterBufferOverhead :: Int
 maxAfterBufferOverhead  = 2 + maxConceivableChunkSizeLength + 2
 
--- | Overhead before and after buffer
-maxEncodingOverhead :: Int
-maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
+-- | Enough bytes to write the hex size for a chunk of the size of your entire
+--  memory (on 32-bit platforms) or 16 TB on 64-bit platforms.
+maxConceivableChunkSizeLength :: Int
+maxConceivableChunkSizeLength = (2 * F.sizeOf (undefined :: Word)) `min` 11
 
--- | Minimal useful buffer size
-minimalBufferSize :: Int
-minimalBufferSize = minimalChunkSize + maxEncodingOverhead
+------------------------------------------------------------------------------
+-- Chunked transfer terminator
+------------------------------------------------------------------------------
 
 -- | The zero-length chunk @0\\r\\n\\r\\n@ signaling the termination of the data transfer.
 chunkedTransferTerminator :: Builder
