@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, MagicHash, OverloadedStrings #-}
+{-# LANGUAGE BangPatterns, CPP, MagicHash, OverloadedStrings #-}
 -- | HTTP/1.1 chunked transfer encoding as defined
 -- in [RFC 7230 Section 4.1](https://tools.ietf.org/html/rfc7230#section-4.1)
 
@@ -68,17 +68,21 @@ writeHex len w0 op0 = do
           F.poke op hex
           go (w `shiftr` 4) (op `F.plusPtr` (-1))
 
+-- | Length of the hex-string required to encode the given 'Word'.
+{-# INLINE hexLength #-}
+hexLength :: Word -> Int
+#if MIN_VERSION_base(4,8,0)
+hexLength w = (2 * F.sizeOf w) - (F.countLeadingZeros w `F.unsafeShiftR` 2)
+#else
+hexLength = max 1 . iterationsUntilZero (`shiftr` 4)
+
 {-# INLINE iterationsUntilZero #-}
 iterationsUntilZero :: Integral a => (a -> a) -> a -> Int
 iterationsUntilZero f = go 0
   where
     go !count 0  = count
     go !count !x = go (count+1) (f x)
-
--- | Length of the hex-string required to encode the given 'Word'.
-{-# INLINE hexLength #-}
-hexLength :: Word -> Int
-hexLength = max 1 . iterationsUntilZero (`shiftr` 4)
+#endif
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
