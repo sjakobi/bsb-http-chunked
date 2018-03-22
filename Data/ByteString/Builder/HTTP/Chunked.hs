@@ -115,12 +115,18 @@ chunkedTransferEncoding innerBuilder =
         go (B.runBuilder innerBuilder)
       where
         go innerStep (BufferRange op ope)
-          | ope `F.minusPtr` op  < minimalBufferSize =
+          | ope `F.minusPtr` op < minimalBufferSize =
               pure $ B.bufferFull minimalBufferSize op (go innerStep)
           | otherwise = do
-              let -- hex length of the largest chunk that would fit into this buffer
-                  !maxWritableChunkSizeLength = hexLength $ fromIntegral (ope `F.minusPtr` op)
-
+              let !maxWritableChunkSize = (ope `F.minusPtr` op)
+                                          - 1 -- Minimal chunk size length
+                                          - 2 -- CRLF after chunk size
+                                          - maxAfterBufferOverhead
+              if F.sizeOf (undefined :: Int) > 4 && maxWritableChunkSize > maxConceivableChunkSize
+               then fail "bla" -- why not just truncate the chunksize? And split the input?
+               else do
+                let
+                  !maxWritableChunkSizeLength = hexLength $ fromIntegral maxWritableChunkSize
                   !brInner@(BufferRange opInner _) = BufferRange
                      (op  `F.plusPtr` (maxWritableChunkSizeLength + 2)) -- leave space for chunk header
                      (ope `F.plusPtr` (-maxAfterBufferOverhead)) -- leave space at end of data
@@ -169,8 +175,8 @@ chunkedTransferEncoding innerBuilder =
                             op''' bs
                            (B.runBuilderWith crlfBuilder $ go nextInnerStep)
 
-              -- execute inner builder with reduced boundaries
-              B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
+                -- execute inner builder with reduced boundaries
+                B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
 
 -- | Minimal useful buffer size
 minimalBufferSize :: Int
@@ -197,6 +203,9 @@ maxAfterBufferOverhead  = 2 + maxConceivableChunkSizeLength + 2
 --  memory (on 32-bit platforms) or 16 TB on 64-bit platforms.
 maxConceivableChunkSizeLength :: Int
 maxConceivableChunkSizeLength = (2 * F.sizeOf (undefined :: Word)) `min` 11
+
+maxConceivableChunkSize :: Int
+maxConceivableChunkSize = 1 `F.shiftL` (maxConceivableChunkSizeLength * 4)
 
 ------------------------------------------------------------------------------
 -- Chunked transfer terminator
