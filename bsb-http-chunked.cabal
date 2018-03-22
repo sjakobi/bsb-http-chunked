@@ -54,6 +54,7 @@ test-suite tests
                  , bytestring-builder
                  , hedgehog
                  , tasty
+                 , tasty-expected-failure
                  , tasty-hedgehog
                  , tasty-hunit
   ghc-options: -Wall -rtsopts

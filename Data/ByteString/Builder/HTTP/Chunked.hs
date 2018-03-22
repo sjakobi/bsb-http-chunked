@@ -11,8 +11,7 @@ import           Control.Applicative                   (pure)
 import           Control.Monad                         (void)
 import           Foreign                               (Ptr, Word8, (.&.))
 import qualified Foreign                               as F
-import           GHC.Base                              (Int(..), uncheckedShiftRL#)
-import           GHC.Word                              (Word32(..))
+import           GHC.Base                              (Int(..), Word(..), uncheckedShiftRL#)
 
 import qualified Data.ByteString                       as S
 import           Data.ByteString.Builder               (Builder)
@@ -29,28 +28,33 @@ import           Data.ByteString.Char8                 () -- For the IsString in
 {-# INLINE writeCRLF #-}
 writeCRLF :: Ptr Word8 -> IO (Ptr Word8)
 writeCRLF op = do
-    P.runF (P.char8 P.>*< P.char8) ('\r', '\n') op
+    P.runF twoChar8sPrim ('\r', '\n') op
     pure $! op `F.plusPtr` 2
 
 {-# INLINE crlfBuilder #-}
 crlfBuilder :: Builder
-crlfBuilder = P.primFixed (P.char8 P.>*< P.char8) ('\r', '\n')
+crlfBuilder = P.primFixed twoChar8sPrim ('\r', '\n')
 
-------------------------------------------------------------------------------
+twoChar8sPrim :: P.FixedPrim (Char, Char)
+twoChar8sPrim = P.char8 P.>*< P.char8
+
+-----------------------------------------------------------------------------
 -- Hex Encoding Infrastructure
 ------------------------------------------------------------------------------
 
-{-# INLINE shiftr_w32 #-}
-shiftr_w32 :: Word32 -> Int -> Word32
-shiftr_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftRL#`   i)
+-- TODO: Use Data.Bits.unsafeShiftR once compatibility with base < 4.5 is
+-- dropped.
+{-# INLINE shiftr #-}
+shiftr :: Word -> Int -> Word
+shiftr (W# w) (I# i) = W# (w `uncheckedShiftRL#` i)
 
--- | @writeWord32Hex len w op@ writes the hex encoding of @w@ to @op@ and 
+-- | @writeHex len w op@ writes the hex encoding of @w@ to @op@ and 
 -- returns @op `'F.plusPtr'` len@.
 --
 -- If writing @w@ doesn't consume all @len@ bytes, leading zeros are added. 
-{-# INLINE writeWord32Hex #-}
-writeWord32Hex :: Int -> Word32 -> Ptr Word8 -> IO (Ptr Word8)
-writeWord32Hex len w0 op0 = do
+{-# INLINE writeHex #-}
+writeHex :: Int -> Word -> Ptr Word8 -> IO (Ptr Word8)
+writeHex len w0 op0 = do
     go w0 (op0 `F.plusPtr` (len - 1))
     pure $! op0 `F.plusPtr` len
   where
@@ -62,7 +66,7 @@ writeWord32Hex len w0 op0 = do
               hex | nibble < 10 = 48 + nibble
                   | otherwise   = 55 + nibble
           F.poke op hex
-          go (w `shiftr_w32` 4) (op `F.plusPtr` (-1))
+          go (w `shiftr` 4) (op `F.plusPtr` (-1))
 
 {-# INLINE iterationsUntilZero #-}
 iterationsUntilZero :: Integral a => (a -> a) -> a -> Int
@@ -71,16 +75,18 @@ iterationsUntilZero f = go 0
     go !count 0  = count
     go !count !x = go (count+1) (f x)
 
--- | Length of the hex-string required to encode the given 'Word32'.
-{-# INLINE word32HexLength #-}
-word32HexLength :: Word32 -> Int
-word32HexLength = max 1 . iterationsUntilZero (`shiftr_w32` 4)
+-- | Length of the hex-string required to encode the given 'Word'.
+{-# INLINE hexLength #-}
+hexLength :: Word -> Int
+hexLength = max 1 . iterationsUntilZero (`shiftr` 4)
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
 ------------------------------------------------------------------------------
 
 -- | Transform a builder such that it uses chunked HTTP transfer encoding.
+--
+-- Chunk sizes up to 16 TB are supported.
 --
 -- >>> :set -XOverloadedStrings
 -- >>> import Data.ByteString.Builder as B
@@ -104,12 +110,14 @@ chunkedTransferEncoding innerBuilder =
         go (B.runBuilder innerBuilder)
       where
         go innerStep (BufferRange op ope)
-          -- FIXME: Assert that outRemaining < maxBound :: Word32
-          | outRemaining < minimalBufferSize =
+          | ope `F.minusPtr` op  < minimalBufferSize =
               pure $ B.bufferFull minimalBufferSize op (go innerStep)
           | otherwise = do
-              let !brInner@(BufferRange opInner _) = BufferRange
-                     (op  `F.plusPtr` (maxChunkSizeLength + 2))  -- leave space for chunk header
+              let -- hex length of the largest chunk that would fit into this buffer
+                  !maxWritableChunkSizeLength = hexLength $ fromIntegral (ope `F.minusPtr` op)
+
+                  !brInner@(BufferRange opInner _) = BufferRange
+                     (op  `F.plusPtr` (maxWritableChunkSizeLength + 2)) -- leave space for chunk header
                      (ope `F.plusPtr` (-maxAfterBufferOverhead)) -- leave space at end of data
 
                   -- wraps the chunk, if it is non-empty, and returns the
@@ -122,8 +130,8 @@ chunkedTransferEncoding innerBuilder =
                     | otherwise           = do
                         let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
                         -- If the hex of chunkSize requires less space than
-                        -- maxChunkSizeLength, we get leading zeros.
-                        void $ writeWord32Hex maxChunkSizeLength chunkSize op
+                        -- maxWritableChunkSizeLength, we get leading zeros.
+                        void $ writeHex maxWritableChunkSizeLength chunkSize op
                         void $ writeCRLF (opInner `F.plusPtr` (-2))
                         void $ writeCRLF chunkDataEnd
                         mkSignal (chunkDataEnd `F.plusPtr` 2)
@@ -147,10 +155,8 @@ chunkedTransferEncoding innerBuilder =
                     | otherwise =                         -- insert non-empty bytestring
                         wrapChunk opInner' $ \op' -> do
                           -- add header for inserted bytestring
-                          -- FIXME: assert(S.length bs < maxBound :: Word32)
                           let chunkSize = fromIntegral $ S.length bs
-                              hexLength = word32HexLength chunkSize
-                          !op'' <- writeWord32Hex hexLength chunkSize op'
+                          !op'' <- writeHex (hexLength chunkSize) chunkSize op'
                           !op''' <- writeCRLF op''
 
                           -- insert bytestring and write CRLF in next buildstep
@@ -160,25 +166,33 @@ chunkedTransferEncoding innerBuilder =
 
               -- execute inner builder with reduced boundaries
               B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
-          where
-            -- minimal size guaranteed for actual data no need to require more
-            -- than 1 byte to guarantee progress the larger sizes will be
-            -- hopefully provided by the driver or requested by the wrapped
-            -- builders.
-            minimalChunkSize  = 1
 
-            -- overhead computation
-            maxBeforeBufferOverhead = F.sizeOf (undefined :: Int) + 2 -- max chunk size and CRLF after header
-            maxAfterBufferOverhead  = 2 +                             -- CRLF after data
-                                      F.sizeOf (undefined :: Int) + 2 -- max bytestring size, CRLF after header
+-- | Minimal size guaranteed for actual data. No need to require more
+-- than 1 byte to guarantee progress. The larger sizes will be
+-- hopefully provided by the driver or requested by the wrapped builders.
+minimalChunkSize :: Int
+minimalChunkSize = 1
 
-            maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
+-- | Enough bytes to write the hex size for a chunk of the size of your entire
+--  memory (on 32-bit platforms) or 16 TB on 64-bit platforms.
+maxConceivableChunkSizeLength :: Int
+maxConceivableChunkSizeLength = (2 * F.sizeOf (undefined :: Word)) `min` 11
 
-            minimalBufferSize = minimalChunkSize + maxEncodingOverhead
+-- | Max chunk size and CRLF after header
+maxBeforeBufferOverhead :: Int
+maxBeforeBufferOverhead = maxConceivableChunkSizeLength + 2
 
-            -- remaining and required space computation
-            outRemaining = ope `F.minusPtr` op
-            maxChunkSizeLength = word32HexLength $ fromIntegral outRemaining
+-- | CRLF after data, max chunk size for next chunk, and CRLF after header
+maxAfterBufferOverhead :: Int
+maxAfterBufferOverhead  = 2 + maxConceivableChunkSizeLength + 2
+
+-- | Overhead before and after buffer
+maxEncodingOverhead :: Int
+maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
+
+-- | Minimal useful buffer size
+minimalBufferSize :: Int
+minimalBufferSize = minimalChunkSize + maxEncodingOverhead
 
 -- | The zero-length chunk @0\\r\\n\\r\\n@ signaling the termination of the data transfer.
 chunkedTransferTerminator :: Builder
