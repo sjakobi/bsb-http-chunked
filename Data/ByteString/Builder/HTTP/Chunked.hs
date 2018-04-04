@@ -205,7 +205,7 @@ maxConceivableChunkSizeLength :: Int
 maxConceivableChunkSizeLength = (2 * F.sizeOf (undefined :: Word)) `min` 11
 
 maxConceivableChunkSize :: Int
-maxConceivableChunkSize = 1 `F.shiftL` (maxConceivableChunkSizeLength * 4)
+maxConceivableChunkSize = (1 `F.shiftL` (maxConceivableChunkSizeLength * 4)) - 1
 
 ------------------------------------------------------------------------------
 -- Chunked transfer terminator
