@@ -23,6 +23,17 @@ import qualified Data.ByteString.Builder.Prim.Internal as P
 import           Data.ByteString.Char8                 () -- For the IsString instance
 
 ------------------------------------------------------------------------------
+-- CPP fun
+------------------------------------------------------------------------------
+
+#include "MachDeps.h"
+
+-- MAX_CHUNK_SIZE_BITS_LIMIT must be a multiple of 4.
+--
+-- Permit chunk sizes up to 16 TB.
+#define MAX_CHUNK_SIZE_BITS_LIMIT 44
+
+------------------------------------------------------------------------------
 -- CRLF utils
 ------------------------------------------------------------------------------
 
@@ -122,7 +133,8 @@ chunkedTransferEncoding innerBuilder =
                                           - 1 -- Minimal chunk size length
                                           - 2 -- CRLF after chunk size
                                           - maxAfterBufferOverhead
-              if F.sizeOf (undefined :: Int) > 4 && maxWritableChunkSize > maxConceivableChunkSize
+              if maxWritableChunkSize > maxConceivableChunkSize
+               -- Maybe we should only fail once we actually have an overly large chunk!
                then fail "bla" -- why not just truncate the chunksize? And split the input?
                else do
                 let
@@ -140,6 +152,8 @@ chunkedTransferEncoding innerBuilder =
                     | chunkDataEnd == opInner = mkSignal op
                     | otherwise           = do
                         let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
+                        -- check for overly large chunk size here
+                        --
                         -- If the hex of chunkSize requires less space than
                         -- maxWritableChunkSizeLength, we get leading zeros.
                         void $ writeHex maxWritableChunkSizeLength chunkSize op
@@ -202,10 +216,20 @@ maxAfterBufferOverhead  = 2 + maxConceivableChunkSizeLength + 2
 -- | Enough bytes to write the hex size for a chunk of the size of your entire
 --  memory (on 32-bit platforms) or 16 TB on 64-bit platforms.
 maxConceivableChunkSizeLength :: Int
-maxConceivableChunkSizeLength = (2 * F.sizeOf (undefined :: Word)) `min` 11
+maxConceivableChunkSizeLength =
+#if (WORD_SIZE_IN_BITS > MAX_CHUNK_SIZE_BITS_LIMIT)
+  MAX_CHUNK_SIZE_BITS_LIMIT `div` 4
+#else
+  2 * F.sizeOf (undefined :: Int)
+#endif
 
 maxConceivableChunkSize :: Int
-maxConceivableChunkSize = (1 `F.shiftL` (maxConceivableChunkSizeLength * 4)) - 1
+maxConceivableChunkSize =
+#if (WORD_SIZE_IN_BITS > MAX_CHUNK_SIZE_BITS_LIMIT)
+  fromIntegral $ ((1 :: Word) `F.unsafeShiftL` MAX_CHUNK_SIZE_BITS_LIMIT) - 1
+#else
+  maxBound
+#endif
 
 ------------------------------------------------------------------------------
 -- Chunked transfer terminator
