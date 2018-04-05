@@ -19,6 +19,9 @@ main = defaultMain
   [ benchEncode "clone village"
                 cloneVillage
                 (foldMap fromPerson)
+  , benchEncode "100 4kB chunks"
+                (S.replicate 4096 95)
+                (stimes (100 :: Int) . B.byteString)
   , benchEncode "200kB strict bytestring"
                 (S.replicate (200 * 1000) 95)
                 B.byteString
@@ -28,9 +31,6 @@ main = defaultMain
   , benchEncode "1000 small chunks nocopy"
                 "Hello"
                 (stimes (1000 :: Int) . B.byteStringInsert)
-  , benchEncode "100 4kB chunks"
-                (S.replicate 4096 95)
-                (stimes (100 :: Int) . B.byteString)
   ]
 
 -- Example adapted from
