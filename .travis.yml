@@ -97,7 +97,7 @@ matrix:
   - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.6.3 DISABLE_TEST=y DISABLE_BENCH=y
     addons: {apt: {packages: [cabal-install-2.2,ghc-7.6.3], sources: [hvr-ghc]}}
 
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.8.4 DISABLE_TEST=y
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.8.4 DISABLE_TEST=y DISABLE_BENCH=y
     addons: {apt: {packages: [cabal-install-2.2,ghc-7.8.4], sources: [hvr-ghc]}}
 
   - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.10.3

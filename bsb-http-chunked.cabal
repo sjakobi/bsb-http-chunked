@@ -80,4 +80,6 @@ benchmark bench
                  , gauge
                  , semigroups
   ghc-options: -O2 -Wall -rtsopts
+  if impl(ghc < 7.10)
+    buildable: False
   type: exitcode-stdio-1.0
