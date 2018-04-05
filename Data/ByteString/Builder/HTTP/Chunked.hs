@@ -147,7 +147,6 @@ chunkedTransferEncoding innerBuilder =
                     | chunkDataEnd == opInner = mkSignal op
                     | otherwise           = do
                         let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
-                        checkChunkSize "wrapChunk" maxWritableChunkSizeLength chunkSize
 
                         -- If the hex of chunkSize requires less space than
                         -- maxWritableChunkSizeLength, we get leading zeros.
