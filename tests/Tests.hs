@@ -42,19 +42,23 @@ genLS :: Gen L.ByteString
 genLS = L.fromChunks <$> genSs
 
 genSs :: Gen [ByteString]
-genSs = Gen.list (Range.linear 0 10) genSnippedS
+genSs = Gen.list (Range.linear 0 100) genSnippedS
 
 genSnippedS :: Gen ByteString
 genSnippedS = do
-  d <- Gen.int (Range.linear 0 8)
-  e <- Gen.int (Range.linear 0 8)
+  d <- genOffSet
+  e <- genOffSet
   S.drop d . dropEnd e <$> genPackedS
   where
+    genOffSet = Gen.int (Range.linear 0 100)
     dropEnd n bs = S.take m bs
       where m = S.length bs - n
 
 genPackedS :: Gen ByteString
-genPackedS = S.replicate <$> Gen.int (Range.linear 0 mAX_CHUNK_SIZE) <*> Gen.word8 (Range.constantFrom 95 0 255)
+genPackedS =
+  S.replicate
+  <$> Gen.int (Range.linear 0 mAX_CHUNK_SIZE)
+  <*> Gen.word8 (Range.constantFrom 95 minBound maxBound)
 
 parseTransferChunks :: L.ByteString -> Either String L.ByteString
 parseTransferChunks = AL.eitherResult .
