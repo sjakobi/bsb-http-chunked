@@ -1,4 +1,4 @@
-{-# language OverloadedStrings #-}
+{-# language DeriveAnyClass, DeriveGeneric, OverloadedStrings #-}
 module Main where
 
 import Gauge
@@ -12,10 +12,14 @@ import qualified Data.ByteString.Builder as B
 import qualified Data.ByteString.Builder.Extra as B
 import qualified Data.ByteString.Lazy as L
 import Data.Semigroup
+import GHC.Generics
 
 main :: IO ()
 main = defaultMain
-  [ benchEncode "200kB strict bytestring"
+  [ benchEncode "clone village"
+                cloneVillage
+                (foldMap fromPerson)
+  , benchEncode "200kB strict bytestring"
                 (S.replicate (200 * 1000) 95)
                 B.byteString
   , benchEncode "1000 small chunks"
@@ -28,6 +32,28 @@ main = defaultMain
                 (S.replicate 4096 95)
                 (stimes (100 :: Int) . B.byteString)
   ]
+
+-- Example adapted from
+-- http://lambda-view.blogspot.de/2010/11/blaze-builder-library-faster.html
+
+data Person = Person { pName :: String, pAge :: Int }
+  deriving (Generic, NFData)
+
+people :: [Person]
+people = zipWith Person ["Haskell 98", "Switzerland", "λ-bot"] [12, 719, 7]
+
+fromStringLen32le :: String -> B.Builder
+fromStringLen32le cs =
+  B.int32LE (fromIntegral $ length cs) <> B.stringUtf8 cs
+
+fromPerson :: Person -> B.Builder
+fromPerson p =
+  fromStringLen32le (pName p) <> B.int32LE (fromIntegral $ pAge p)
+
+cloneVillage :: [Person]
+cloneVillage = take 10000 $ cycle $ people
+
+-- Utils
 
 benchEncode :: NFData input => String -> input -> (input -> B.Builder) -> Benchmark
 benchEncode name input mkBuilder =
