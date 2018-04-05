@@ -8,7 +8,7 @@ module Data.ByteString.Builder.HTTP.Chunked (
   ) where
 
 import           Control.Applicative                   (pure)
-import           Control.Monad                         (void)
+import           Control.Monad                         (void, when)
 import           Foreign                               (Ptr, Word8, (.&.))
 import qualified Foreign                               as F
 import           GHC.Base                              (Int(..), uncheckedShiftRL#)
@@ -133,11 +133,6 @@ chunkedTransferEncoding innerBuilder =
                                           - 1 -- Minimal chunk size length
                                           - 2 -- CRLF after chunk size
                                           - maxAfterBufferOverhead
-              if maxWritableChunkSize > maxConceivableChunkSize
-               -- Maybe we should only fail once we actually have an overly large chunk!
-               then fail "bla" -- why not just truncate the chunksize? And split the input?
-               else do
-                let
                   !maxWritableChunkSizeLength = hexLength $ fromIntegral maxWritableChunkSize
                   !brInner@(BufferRange opInner _) = BufferRange
                      (op  `F.plusPtr` (maxWritableChunkSizeLength + 2)) -- leave space for chunk header
@@ -152,11 +147,12 @@ chunkedTransferEncoding innerBuilder =
                     | chunkDataEnd == opInner = mkSignal op
                     | otherwise           = do
                         let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
-                        -- check for overly large chunk size here
-                        --
+                        checkChunkSize "wrapChunk" maxWritableChunkSizeLength chunkSize
+
                         -- If the hex of chunkSize requires less space than
                         -- maxWritableChunkSizeLength, we get leading zeros.
                         void $ writeHex maxWritableChunkSizeLength chunkSize op
+
                         void $ writeCRLF (opInner `F.plusPtr` (-2))
                         void $ writeCRLF chunkDataEnd
                         mkSignal (chunkDataEnd `F.plusPtr` 2)
@@ -179,8 +175,16 @@ chunkedTransferEncoding innerBuilder =
 
                     | otherwise =                         -- insert non-empty bytestring
                         wrapChunk opInner' $ \op' -> do
+
                           -- add header for inserted bytestring
                           let chunkSize = fromIntegral $ S.length bs
+                              availableSpaceForChunkSize = ope `F.minusPtr` op' - 2
+
+                          -- TODO: Can we send 'BufferFull' instead of failing!?
+                          checkChunkSize "insertChunkH"
+                                         availableSpaceForChunkSize
+                                         chunkSize
+
                           !op'' <- writeHex (hexLength chunkSize) chunkSize op'
                           !op''' <- writeCRLF op''
 
@@ -189,8 +193,17 @@ chunkedTransferEncoding innerBuilder =
                             op''' bs
                            (B.runBuilderWith crlfBuilder $ go nextInnerStep)
 
-                -- execute inner builder with reduced boundaries
-                B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
+              -- execute inner builder with reduced boundaries
+              B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
+
+checkChunkSize :: String -> Int -> Word -> IO ()
+checkChunkSize fname availableBytes chunkSize = do
+  let chunkSizeLength = hexLength chunkSize
+  when (chunkSizeLength > availableBytes) $
+    fail $ fname ++ ": Hex of chunk of size " ++ show chunkSize ++ " requires "
+      ++ show chunkSizeLength ++ " bytes. Only " ++ show availableBytes
+      ++ " are available."
+  return ()
 
 -- | Minimal useful buffer size
 minimalBufferSize :: Int
@@ -223,6 +236,7 @@ maxConceivableChunkSizeLength =
   2 * F.sizeOf (undefined :: Int)
 #endif
 
+{-
 maxConceivableChunkSize :: Int
 maxConceivableChunkSize =
 #if (WORD_SIZE_IN_BITS > MAX_CHUNK_SIZE_BITS_LIMIT)
@@ -230,6 +244,7 @@ maxConceivableChunkSize =
 #else
   maxBound
 #endif
+-}
 
 ------------------------------------------------------------------------------
 -- Chunked transfer terminator
