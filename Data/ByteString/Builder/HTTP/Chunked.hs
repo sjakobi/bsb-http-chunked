@@ -130,7 +130,7 @@ chunkedTransferEncoding innerBuilder =
                             -> IO (BuildSignal a)
                   wrapChunk !chunkDataEnd mkSignal
                     | chunkDataEnd == opInner = mkSignal op
-                    | otherwise           = do
+                    | otherwise = do
                         let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
                         void $ writeWord32Hex (PadTo maxChunkSizeLength) chunkSize op
                         void $ writeCRLF (opInner `F.plusPtr` (-crlfLength))
