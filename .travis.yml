@@ -150,7 +150,6 @@ matrix:
   # --------------------------------------------------------------------------
 
   allow_failures:
-  - env: BUILD=stack RESOLVER=nightly
   - env: BUILD=cabal CABALVER=head GHCVER=head
   - env: BUILD=cabal-new CABALVER=head GHCVER=head
   - env: BUILD=stack RESOLVER=lts-11 HLINT_COMMANDS="hlint lint ."
