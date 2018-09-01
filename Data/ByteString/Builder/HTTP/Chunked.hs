@@ -34,9 +34,6 @@ writeCRLF op = do
 crlfBuilder :: Builder
 crlfBuilder = P.primFixed (P.char8 P.>*< P.char8) ('\r', '\n')
 
-crlfLength :: Int
-crlfLength = 2
-
 ------------------------------------------------------------------------------
 -- Hex Encoding Infrastructure
 ------------------------------------------------------------------------------
@@ -66,8 +63,19 @@ writeWord32Hex len w0 op0 = do
 word32HexLength :: Word32 -> Int
 word32HexLength w = maxW32HexLength - (F.countLeadingZeros w `F.unsafeShiftR` 2)
 
-maxW32HexLength :: Int
+------------------------------------------------------------------------------
+-- Constants
+------------------------------------------------------------------------------
+
+crlfLength, maxW32HexLength, minimalChunkSize, maxBeforeBufferOverhead,
+  maxAfterBufferOverhead, maxEncodingOverhead, minimalBufferSize :: Int
+crlfLength = 2
 maxW32HexLength = 8 -- 4 bytes, 2 hex digits per byte
+minimalChunkSize  = 1
+maxBeforeBufferOverhead = maxW32HexLength + crlfLength
+maxAfterBufferOverhead = crlfLength + maxW32HexLength + crlfLength
+maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
+minimalBufferSize = minimalChunkSize + maxEncodingOverhead
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
@@ -154,22 +162,6 @@ chunkedTransferEncoding innerBuilder =
               -- execute inner builder with reduced boundaries
               B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
           where
-            -- minimal size guaranteed for actual data no need to require more
-            -- than 1 byte to guarantee progress the larger sizes will be
-            -- hopefully provided by the driver or requested by the wrapped
-            -- builders.
-            minimalChunkSize  = 1
-
-            -- overhead computation
-            maxBeforeBufferOverhead = maxW32HexLength + crlfLength -- max chunk size and CRLF after header
-            maxAfterBufferOverhead  = crlfLength +                 -- CRLF after data
-                                      maxW32HexLength + crlfLength -- max chunk size, CRLF after header
-
-            maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
-
-            minimalBufferSize = minimalChunkSize + maxEncodingOverhead
-
-            -- remaining and required space computation
             outRemaining = ope `F.minusPtr` op
             maxChunkSizeLength = word32HexLength $ fromIntegral outRemaining
 
