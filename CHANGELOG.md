@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-- Remove compatibility with GHC < 7.10
+- Remove compatibility with GHC < 7.10 (prompted by internal refactorings)
 
 ## [0.0.0.3] – 2018-09-01
 
