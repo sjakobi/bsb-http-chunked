@@ -28,11 +28,14 @@ import           Data.ByteString.Char8                 () -- For the IsString in
 writeCRLF :: Ptr Word8 -> IO (Ptr Word8)
 writeCRLF op = do
     P.runF (P.char8 P.>*< P.char8) ('\r', '\n') op
-    pure $! op `F.plusPtr` 2
+    pure $! op `F.plusPtr` crlfLength
 
 {-# INLINE crlfBuilder #-}
 crlfBuilder :: Builder
 crlfBuilder = P.primFixed (P.char8 P.>*< P.char8) ('\r', '\n')
+
+crlfLength :: Int
+crlfLength = 2
 
 ------------------------------------------------------------------------------
 -- Hex Encoding Infrastructure
@@ -61,9 +64,10 @@ writeWord32Hex len w0 op0 = do
 -- | Length of the hex-string required to encode the given 'Word32'.
 {-# INLINE word32HexLength #-}
 word32HexLength :: Word32 -> Int
-word32HexLength w = maxLength - (F.countLeadingZeros w `F.unsafeShiftR` 2)
-  where
-    maxLength = 8 -- 4 bytes, 2 hex digits per byte
+word32HexLength w = maxW32HexLength - (F.countLeadingZeros w `F.unsafeShiftR` 2)
+
+maxW32HexLength :: Int
+maxW32HexLength = 8 -- 4 bytes, 2 hex digits per byte
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
@@ -98,7 +102,7 @@ chunkedTransferEncoding innerBuilder =
               pure $ B.bufferFull minimalBufferSize op (go innerStep)
           | otherwise = do
               let !brInner@(BufferRange opInner _) = BufferRange
-                     (op  `F.plusPtr` (maxChunkSizeLength + 2))  -- leave space for chunk header
+                     (op  `F.plusPtr` (maxChunkSizeLength + crlfLength))  -- leave space for chunk header
                      (ope `F.plusPtr` (-maxAfterBufferOverhead)) -- leave space at end of data
 
                   -- wraps the chunk, if it is non-empty, and returns the
@@ -113,9 +117,9 @@ chunkedTransferEncoding innerBuilder =
                         -- If the hex of chunkSize requires less space than
                         -- maxChunkSizeLength, we get leading zeros.
                         void $ writeWord32Hex maxChunkSizeLength chunkSize op
-                        void $ writeCRLF (opInner `F.plusPtr` (-2))
+                        void $ writeCRLF (opInner `F.plusPtr` (-crlfLength))
                         void $ writeCRLF chunkDataEnd
-                        mkSignal (chunkDataEnd `F.plusPtr` 2)
+                        mkSignal (chunkDataEnd `F.plusPtr` crlfLength)
 
                   doneH opInner' _ = wrapChunk opInner' $ \op' -> do
                                          let !br' = BufferRange op' ope
@@ -157,9 +161,9 @@ chunkedTransferEncoding innerBuilder =
             minimalChunkSize  = 1
 
             -- overhead computation
-            maxBeforeBufferOverhead = F.sizeOf (undefined :: Int) + 2 -- max chunk size and CRLF after header
-            maxAfterBufferOverhead  = 2 +                             -- CRLF after data
-                                      F.sizeOf (undefined :: Int) + 2 -- max bytestring size, CRLF after header
+            maxBeforeBufferOverhead = maxW32HexLength + crlfLength -- max chunk size and CRLF after header
+            maxAfterBufferOverhead  = crlfLength +                 -- CRLF after data
+                                      maxW32HexLength + crlfLength -- max chunk size, CRLF after header
 
             maxEncodingOverhead = maxBeforeBufferOverhead + maxAfterBufferOverhead
 
