@@ -39,7 +39,7 @@ env:
   # If you have not committed packcheck.sh in your repo at PACKCHECK_LOCAL_PATH
   # then it is automatically pulled from this URL.
   - PACKCHECK_GITHUB_URL="https://raw.githubusercontent.com/harendra-kumar/packcheck"
-  - PACKCHECK_GITHUB_COMMIT="ab08f0c5c574e056d37f016ca79a611030862557"
+  - PACKCHECK_GITHUB_COMMIT="b74145cd785d0a812853d7e240dd2315ffef50e8"
 
 notifications:
   email:
@@ -84,33 +84,33 @@ matrix:
   # (Linux) cabal builds
   # --------------------------------------------------------------------------
 
-  # Tests are disabled for GHC < 7.10, so cabal new-build doesn't fail
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.0.4 DISABLE_TEST=y DISABLE_BENCH=y
-    addons: {apt: {packages: [cabal-install-2.2,ghc-7.0.4], sources: [hvr-ghc]}}
-
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.2.2 DISABLE_TEST=y DISABLE_BENCH=y
-    addons: {apt: {packages: [cabal-install-2.2,ghc-7.2.2], sources: [hvr-ghc]}}
-
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.4.2 DISABLE_TEST=y DISABLE_BENCH=y
-    addons: {apt: {packages: [cabal-install-2.2,ghc-7.4.2], sources: [hvr-ghc]}}
-
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.6.3 DISABLE_TEST=y DISABLE_BENCH=y
-    addons: {apt: {packages: [cabal-install-2.2,ghc-7.6.3], sources: [hvr-ghc]}}
-
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.8.4 DISABLE_TEST=y DISABLE_BENCH=y
-    addons: {apt: {packages: [cabal-install-2.2,ghc-7.8.4], sources: [hvr-ghc]}}
-
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.10.3
-    addons: {apt: {packages: [cabal-install-2.2,ghc-7.10.3], sources: [hvr-ghc]}}
-
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.0.2
-    addons: {apt: {packages: [cabal-install-2.2,ghc-8.0.2], sources: [hvr-ghc]}}
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.4.1
+    addons: {apt: {packages: [cabal-install-2.2,ghc-8.4.1], sources: [hvr-ghc]}}
 
   - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.2.2
     addons: {apt: {packages: [cabal-install-2.2,ghc-8.2.2], sources: [hvr-ghc]}}
 
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.4.1
-    addons: {apt: {packages: [cabal-install-2.2,ghc-8.4.1], sources: [hvr-ghc]}}
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.0.2
+    addons: {apt: {packages: [cabal-install-2.2,ghc-8.0.2], sources: [hvr-ghc]}}
+
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.10.3
+    addons: {apt: {packages: [cabal-install-2.2,ghc-7.10.3], sources: [hvr-ghc]}}
+
+  # Tests are disabled for GHC < 7.10, so cabal new-build doesn't fail
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.8.4 DISABLE_TEST=y DISABLE_BENCH=y
+    addons: {apt: {packages: [cabal-install-2.2,ghc-7.8.4], sources: [hvr-ghc]}}
+
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.6.3 DISABLE_TEST=y DISABLE_BENCH=y
+    addons: {apt: {packages: [cabal-install-2.2,ghc-7.6.3], sources: [hvr-ghc]}}
+
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.4.2 DISABLE_TEST=y DISABLE_BENCH=y
+    addons: {apt: {packages: [cabal-install-2.2,ghc-7.4.2], sources: [hvr-ghc]}}
+
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.2.2 DISABLE_TEST=y DISABLE_BENCH=y
+    addons: {apt: {packages: [cabal-install-2.2,ghc-7.2.2], sources: [hvr-ghc]}}
+
+  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=7.0.4 DISABLE_TEST=y DISABLE_BENCH=y
+    addons: {apt: {packages: [cabal-install-2.2,ghc-7.0.4], sources: [hvr-ghc]}}
 
   #- env: BUILD=cabal-new CABALVER=head GHCVER=head
   #  addons: {apt: {packages: [cabal-install-head,ghc-head], sources: [hvr-ghc]}}
@@ -147,7 +147,6 @@ matrix:
   # --------------------------------------------------------------------------
 
   allow_failures:
-  - env: BUILD=stack RESOLVER=nightly
   - env: BUILD=cabal CABALVER=head GHCVER=head
   - env: BUILD=cabal-new CABALVER=head GHCVER=head
   - env: BUILD=stack RESOLVER=lts-11 HLINT_COMMANDS="hlint lint ."
