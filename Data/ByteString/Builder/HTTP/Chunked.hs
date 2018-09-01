@@ -59,17 +59,10 @@ writeWord32Hex len w0 op0 = do
           F.poke op hex
           go (w `F.unsafeShiftR` 4) (op `F.plusPtr` (-1))
 
-{-# INLINE iterationsUntilZero #-}
-iterationsUntilZero :: Integral a => (a -> a) -> a -> Int
-iterationsUntilZero f = go 0
-  where
-    go !count 0  = count
-    go !count !x = go (count+1) (f x)
-
 -- | Length of the hex-string required to encode the given 'Word32'.
 {-# INLINE word32HexLength #-}
 word32HexLength :: Word32 -> Int
-word32HexLength = max 1 . iterationsUntilZero (`F.unsafeShiftR` 4)
+word32HexLength w = (F.sizeOf w `F.unsafeShiftL` 1) - (F.countLeadingZeros w `F.unsafeShiftR` 2)
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
