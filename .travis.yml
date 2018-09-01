@@ -84,9 +84,6 @@ matrix:
   # (Linux) cabal builds
   # --------------------------------------------------------------------------
 
-  - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.6.1
-    addons: {apt: {packages: [cabal-install-2.2,ghc-8.6.1], sources: [hvr-ghc]}}
-
   - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.4.1
     addons: {apt: {packages: [cabal-install-2.2,ghc-8.4.1], sources: [hvr-ghc]}}
 
