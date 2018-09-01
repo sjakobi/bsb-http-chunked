@@ -61,7 +61,9 @@ writeWord32Hex len w0 op0 = do
 -- | Length of the hex-string required to encode the given 'Word32'.
 {-# INLINE word32HexLength #-}
 word32HexLength :: Word32 -> Int
-word32HexLength w = (F.sizeOf w `F.unsafeShiftL` 1) - (F.countLeadingZeros w `F.unsafeShiftR` 2)
+word32HexLength w = maxLength - (F.countLeadingZeros w `F.unsafeShiftR` 2)
+  where
+    maxLength = 8 -- 4 bytes, 2 hex digits per byte
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding
