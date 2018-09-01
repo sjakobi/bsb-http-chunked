@@ -9,9 +9,8 @@ module Data.ByteString.Builder.HTTP.Chunked (
 
 import           Control.Applicative                   (pure)
 import           Control.Monad                         (void)
-import           Foreign                               (Ptr, Word8, (.&.))
+import           Foreign                               (Ptr, Word8, Word32, (.&.))
 import qualified Foreign                               as F
-import           GHC.Word                              (Word32(..))
 
 import qualified Data.ByteString                       as S
 import           Data.ByteString.Builder               (Builder)
