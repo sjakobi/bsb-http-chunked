@@ -36,9 +36,8 @@ Source-repository head
 
 Library
   exposed-modules:   Data.ByteString.Builder.HTTP.Chunked
-  build-depends:     base >= 4.3 && < 4.13,
-                     bytestring >= 0.9 && < 0.11,
-                     bytestring-builder < 0.11
+  build-depends:     base >= 4.8 && < 4.13,
+                     bytestring >= 0.10.2 && < 0.11
   ghc-options:       -Wall -O2
   if impl(ghc >= 8.0)
     ghc-options:     -Wcompat
@@ -57,8 +56,6 @@ test-suite tests
                  , tasty-hedgehog
                  , tasty-hunit
   ghc-options: -Wall -rtsopts
-  if impl(ghc < 7.10)
-    buildable: False
   type: exitcode-stdio-1.0
 
 test-suite doctests
@@ -80,6 +77,4 @@ benchmark bench
                  , gauge
                  , semigroups
   ghc-options: -O2 -Wall -rtsopts
-  if impl(ghc < 7.10)
-    buildable: False
   type: exitcode-stdio-1.0

@@ -11,7 +11,6 @@ import           Control.Applicative                   (pure)
 import           Control.Monad                         (void)
 import           Foreign                               (Ptr, Word8, (.&.))
 import qualified Foreign                               as F
-import           GHC.Base                              (Int(..), uncheckedShiftRL#)
 import           GHC.Word                              (Word32(..))
 
 import qualified Data.ByteString                       as S
@@ -40,10 +39,6 @@ crlfBuilder = P.primFixed (P.char8 P.>*< P.char8) ('\r', '\n')
 -- Hex Encoding Infrastructure
 ------------------------------------------------------------------------------
 
-{-# INLINE shiftr_w32 #-}
-shiftr_w32 :: Word32 -> Int -> Word32
-shiftr_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftRL#`   i)
-
 -- | @writeWord32Hex len w op@ writes the hex encoding of @w@ to @op@ and 
 -- returns @op `'F.plusPtr'` len@.
 --
@@ -62,7 +57,7 @@ writeWord32Hex len w0 op0 = do
               hex | nibble < 10 = 48 + nibble
                   | otherwise   = 55 + nibble
           F.poke op hex
-          go (w `shiftr_w32` 4) (op `F.plusPtr` (-1))
+          go (w `F.unsafeShiftR` 4) (op `F.plusPtr` (-1))
 
 {-# INLINE iterationsUntilZero #-}
 iterationsUntilZero :: Integral a => (a -> a) -> a -> Int
@@ -74,7 +69,7 @@ iterationsUntilZero f = go 0
 -- | Length of the hex-string required to encode the given 'Word32'.
 {-# INLINE word32HexLength #-}
 word32HexLength :: Word32 -> Int
-word32HexLength = max 1 . iterationsUntilZero (`shiftr_w32` 4)
+word32HexLength = max 1 . iterationsUntilZero (`F.unsafeShiftR` 4)
 
 ------------------------------------------------------------------------------
 -- Chunked transfer encoding

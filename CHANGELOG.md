@@ -1,5 +1,9 @@
 # Changelog for the `bsb-http-chunked` package
 
+## [Unreleased]
+
+- Remove compatibility with GHC < 7.10
+
 ## [0.0.0.3] – 2018-09-01
 
 - Compatibility with GHC-8.6
