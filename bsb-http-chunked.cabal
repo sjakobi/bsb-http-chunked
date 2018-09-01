@@ -50,7 +50,6 @@ test-suite tests
                  , bsb-http-chunked
                  , blaze-builder >= 0.2.1.4
                  , bytestring
-                 , bytestring-builder
                  , hedgehog
                  , tasty
                  , tasty-hedgehog
