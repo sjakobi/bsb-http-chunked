@@ -1,5 +1,5 @@
 Name:                bsb-http-chunked
-Version:             0.0.0.2
+Version:             0.0.0.3
 Synopsis:            Chunked HTTP transfer encoding for bytestring builders
 
 Description:         This library contains functions for encoding [bytestring
