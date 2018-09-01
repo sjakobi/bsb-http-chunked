@@ -38,13 +38,23 @@ crlfBuilder = P.primFixed (P.char8 P.>*< P.char8) ('\r', '\n')
 -- Hex Encoding Infrastructure
 ------------------------------------------------------------------------------
 
--- | @writeWord32Hex len w op@ writes the hex encoding of @w@ to @op@ and 
+-- | Pad the chunk size with leading zeros?
+data Padding
+  = NoPadding
+  | PadTo !Int
+
+{-# INLINE writeWord32Hex #-}
+writeWord32Hex :: Padding -> Word32 -> Ptr Word8 -> IO (Ptr Word8)
+writeWord32Hex NoPadding w op = writeWord32Hex' (word32HexLength w) w op
+writeWord32Hex (PadTo len) w op = writeWord32Hex' len w op
+
+-- | @writeWord32Hex' len w op@ writes the hex encoding of @w@ to @op@ and 
 -- returns @op `'F.plusPtr'` len@.
 --
 -- If writing @w@ doesn't consume all @len@ bytes, leading zeros are added. 
-{-# INLINE writeWord32Hex #-}
-writeWord32Hex :: Int -> Word32 -> Ptr Word8 -> IO (Ptr Word8)
-writeWord32Hex len w0 op0 = do
+{-# INLINE writeWord32Hex' #-}
+writeWord32Hex' :: Int -> Word32 -> Ptr Word8 -> IO (Ptr Word8)
+writeWord32Hex' len w0 op0 = do
     go w0 (op0 `F.plusPtr` (len - 1))
     pure $! op0 `F.plusPtr` len
   where
@@ -122,9 +132,7 @@ chunkedTransferEncoding innerBuilder =
                     | chunkDataEnd == opInner = mkSignal op
                     | otherwise           = do
                         let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
-                        -- If the hex of chunkSize requires less space than
-                        -- maxChunkSizeLength, we get leading zeros.
-                        void $ writeWord32Hex maxChunkSizeLength chunkSize op
+                        void $ writeWord32Hex (PadTo maxChunkSizeLength) chunkSize op
                         void $ writeCRLF (opInner `F.plusPtr` (-crlfLength))
                         void $ writeCRLF chunkDataEnd
                         mkSignal (chunkDataEnd `F.plusPtr` crlfLength)
@@ -150,8 +158,7 @@ chunkedTransferEncoding innerBuilder =
                           -- add header for inserted bytestring
                           -- FIXME: assert(S.length bs < maxBound :: Word32)
                           let chunkSize = fromIntegral $ S.length bs
-                              hexLength = word32HexLength chunkSize
-                          !op'' <- writeWord32Hex hexLength chunkSize op'
+                          !op'' <- writeWord32Hex NoPadding chunkSize op'
                           !op''' <- writeCRLF op''
 
                           -- insert bytestring and write CRLF in next buildstep
