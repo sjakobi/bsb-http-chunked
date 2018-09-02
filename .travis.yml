@@ -25,7 +25,7 @@ env:
   - CABAL_NO_SANDBOX=y
   - CABAL_HACKAGE_MIRROR=hackage.haskell.org:http://hackage.fpcomplete.com
   - TEST_INSTALL=y
-  - PATH=/bin:/usr/bin
+  - PATH=/bin:/usr/bin:/opt/ghc/bin:/opt/ghc-ppa-tools/bin
   - LC_ALL=C.UTF-8
 
   # ------------------------------------------------------------------------
@@ -83,6 +83,10 @@ matrix:
   # --------------------------------------------------------------------------
   # (Linux) cabal builds
   # --------------------------------------------------------------------------
+
+  # TODO: Remove --allow-newer
+  - env: BUILD=cabal-new CABALVER=2.4 GHCVER=8.6 CABAL_NEWBUILD_OPTIONS="--allow-newer"
+    addons: {apt: {packages: [cabal-install-2.4,ghc-8.6.1], sources: [hvr-ghc]}}
 
   - env: BUILD=cabal-new CABALVER=2.2 GHCVER=8.4.1
     addons: {apt: {packages: [cabal-install-2.2,ghc-8.4.1], sources: [hvr-ghc]}}
