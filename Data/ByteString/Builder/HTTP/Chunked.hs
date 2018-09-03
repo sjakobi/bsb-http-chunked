@@ -28,7 +28,7 @@ import           Data.ByteString.Char8                 () -- For the IsString in
 writeCRLF :: Ptr Word8 -> IO (Ptr Word8)
 writeCRLF op = do
     P.runF (P.char8 P.>*< P.char8) ('\r', '\n') op
-    pure $! op `F.plusPtr` crlfLength
+    pure $ op `F.plusPtr` crlfLength
 
 {-# INLINE crlfBuilder #-}
 crlfBuilder :: Builder
@@ -56,7 +56,7 @@ writeWord32Hex (PadTo len) w op = writeWord32Hex' len w op
 writeWord32Hex' :: Int -> Word32 -> Ptr Word8 -> IO (Ptr Word8)
 writeWord32Hex' len w0 op0 = do
     go w0 (op0 `F.plusPtr` (len - 1))
-    pure $! op0 `F.plusPtr` len
+    pure $ op0 `F.plusPtr` len
   where
     go !w !op
       | op < op0  = pure ()
