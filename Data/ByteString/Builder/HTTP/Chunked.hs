@@ -7,7 +7,6 @@ module Data.ByteString.Builder.HTTP.Chunked (
   , chunkedTransferTerminator
   ) where
 
-import           Control.Applicative                   (pure)
 import           Control.Monad                         (void, when)
 import           Foreign                               (Ptr, Word8, Word32, (.&.))
 import qualified Foreign                               as F
