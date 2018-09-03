@@ -8,7 +8,7 @@ module Data.ByteString.Builder.HTTP.Chunked (
   ) where
 
 import           Control.Applicative                   (pure)
-import           Control.Monad                         (void)
+import           Control.Monad                         (void, when)
 import           Foreign                               (Ptr, Word8, Word32, (.&.))
 import qualified Foreign                               as F
 
@@ -58,9 +58,8 @@ writeWord32Hex' len w0 op0 = do
     go w0 (op0 `F.plusPtr` (len - 1))
     pure $ op0 `F.plusPtr` len
   where
-    go !w !op
-      | op < op0  = pure ()
-      | otherwise = do
+    go !w !op =
+        when (op >= op0) $ do
           let nibble :: Word8
               nibble = fromIntegral w .&. 0xF
               hex | nibble < 10 = 48 + nibble
