@@ -34,18 +34,24 @@ chunkedTransferEncodingLBlaze = B.toLazyByteString . Blaze.chunkedTransferEncodi
 properties :: TestTree
 properties = testGroup "Properties"
   [ p "Encoding and parsing roundtrips" $ do
-      lbs <- forAll genLS
+      lbs <- forAllWith (show . chunks) genLS
       tripping lbs
                chunkedTransferEncodingL
                parseTransferChunks
     -- This is about detecting differences in output,
     -- not about bug-to-bug compatibility.
   , p "Identical output as Blaze" $ do
-      lbs <- forAll genLS
+      lbs <- forAllWith (show . chunks) genLS
       chunkedTransferEncodingL lbs === chunkedTransferEncodingLBlaze lbs
   ]
   where
     p name = testProperty name . property
+
+newtype Chunks = Chunks [ByteString]
+  deriving Show
+
+chunks :: L.ByteString -> Chunks
+chunks = Chunks . L.toChunks
 
 genLS :: Gen L.ByteString
 genLS = L.fromChunks <$> genSs

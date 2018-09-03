@@ -127,7 +127,7 @@ chunkedTransferEncoding innerBuilder =
               B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
           where
             outRemaining = ope `F.minusPtr` op
-            maxChunkSizeLength = hexLength $ fromIntegral outRemaining
+            maxChunkSizeLength = hexLength outRemaining
 
             !brInner@(BufferRange opInner _) = BufferRange
                 (op  `F.plusPtr` (maxChunkSizeLength + crlfLength)) -- leave space for chunk header
