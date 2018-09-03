@@ -148,13 +148,11 @@ chunkedTransferEncoding innerBuilder =
                           op'
                           (go nextInnerStep)
  
-                  insertChunkH opInner' bs nextInnerStep
-                    | S.null bs =                         -- flush
-                        wrapChunk opInner' $ \op' ->
-                          pure $! B.insertChunk op' S.empty (go nextInnerStep)
-
-                    | otherwise =                         -- insert non-empty bytestring
-                        wrapChunk opInner' $ \op' -> do
+                  insertChunkH opInner' bs nextInnerStep =
+                      wrapChunk opInner' $ \op' ->
+                        if S.null bs                      -- flush
+                        then pure $! B.insertChunk op' S.empty (go nextInnerStep)
+                        else do                           -- insert non-empty bytestring
                           -- add header for inserted bytestring
                           -- FIXME: assert(S.length bs < maxBound :: Word32)
                           let chunkSize = fromIntegral $ S.length bs
