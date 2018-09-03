@@ -137,9 +137,9 @@ chunkedTransferEncoding innerBuilder =
                         void $ writeCRLF chunkDataEnd
                         mkSignal (chunkDataEnd `F.plusPtr` crlfLength)
 
-                  doneH opInner' _ = wrapChunk opInner' $ \op' -> do
-                                         let !br' = BufferRange op' ope
-                                         k br'
+                  doneH opInner' _ =
+                      wrapChunk opInner' $ \op' ->
+                        k $! BufferRange op' ope
 
                   fullH opInner' minRequiredSize nextInnerStep =
                       wrapChunk opInner' $ \op' ->
@@ -158,11 +158,10 @@ chunkedTransferEncoding innerBuilder =
                           let chunkSize = fromIntegral $ S.length bs
                           !op'' <- writeWord32Hex NoPadding chunkSize op'
                           !op''' <- writeCRLF op''
-
                           -- insert bytestring and write CRLF in next buildstep
                           pure $! B.insertChunk
                             op''' bs
-                           (B.runBuilderWith crlfBuilder $ go nextInnerStep)
+                            (B.runBuilderWith crlfBuilder $ go nextInnerStep)
 
               -- execute inner builder with reduced boundaries
               B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
