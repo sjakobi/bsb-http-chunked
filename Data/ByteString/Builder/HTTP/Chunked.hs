@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns, MagicHash, OverloadedStrings #-}
+{-# LANGUAGE BangPatterns, MagicHash, OverloadedStrings, ScopedTypeVariables #-}
 -- | HTTP/1.1 chunked transfer encoding as defined
 -- in [RFC 7230 Section 4.1](https://tools.ietf.org/html/rfc7230#section-4.1)
 
@@ -12,9 +12,10 @@ import           Control.Monad                         (void, when)
 import           Foreign                               (Ptr, Word8, Word32, (.&.))
 import qualified Foreign                               as F
 
+import           Data.ByteString                       (ByteString)
 import qualified Data.ByteString                       as S
 import           Data.ByteString.Builder               (Builder)
-import           Data.ByteString.Builder.Internal      (BufferRange(..), BuildSignal)
+import           Data.ByteString.Builder.Internal      (BufferRange(..), BuildSignal, BuildStep)
 import qualified Data.ByteString.Builder.Internal      as B
 import qualified Data.ByteString.Builder.Prim          as P
 import qualified Data.ByteString.Builder.Prim.Internal as P
@@ -110,9 +111,11 @@ chunkedTransferEncoding :: Builder -> Builder
 chunkedTransferEncoding innerBuilder =
     B.builder transferEncodingStep
   where
+    transferEncodingStep :: forall a.  BuildStep a -> BuildStep a
     transferEncodingStep k =
         go (B.runBuilder innerBuilder)
       where
+        go :: (BufferRange -> IO (BuildSignal _x)) -> BuildStep a
         go innerStep (BufferRange op ope)
           -- FIXME: Assert that outRemaining < maxBound :: Word32
           | outRemaining < minimalBufferSize =
@@ -128,10 +131,14 @@ chunkedTransferEncoding innerBuilder =
                 (op  `F.plusPtr` (maxChunkSizeLength + crlfLength)) -- leave space for chunk header
                 (ope `F.plusPtr` (-maxAfterBufferOverhead))         -- leave space at end of data
 
+            doneH :: Ptr Word8 -> _x
+                  -> IO (BuildSignal a)
             doneH opInner' _ =
                 wrapChunk opInner' $ \op' ->
                   k $! BufferRange op' ope
 
+            fullH :: Ptr Word8 -> Int -> BuildStep _x
+                  -> IO (BuildSignal a)
             fullH opInner' minRequiredSize nextInnerStep =
                 wrapChunk opInner' $ \op' ->
                   pure $! B.bufferFull
@@ -139,6 +146,8 @@ chunkedTransferEncoding innerBuilder =
                     op'
                     (go nextInnerStep)
 
+            insertChunkH :: Ptr Word8 -> ByteString -> BuildStep _x
+                         -> IO (BuildSignal a)
             insertChunkH opInner' bs nextInnerStep =
                 wrapChunk opInner' $ \op' ->
                   if S.null bs                      -- flush
