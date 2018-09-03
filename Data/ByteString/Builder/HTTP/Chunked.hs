@@ -117,56 +117,57 @@ chunkedTransferEncoding innerBuilder =
           -- FIXME: Assert that outRemaining < maxBound :: Word32
           | outRemaining < minimalBufferSize =
               pure $ B.bufferFull minimalBufferSize op (go innerStep)
-          | otherwise = do
-              let !brInner@(BufferRange opInner _) = BufferRange
-                     (op  `F.plusPtr` (maxChunkSizeLength + crlfLength))  -- leave space for chunk header
-                     (ope `F.plusPtr` (-maxAfterBufferOverhead)) -- leave space at end of data
-
-                  -- wraps the chunk, if it is non-empty, and returns the
-                  -- signal constructed with the correct end-of-data pointer
-                  {-# INLINE wrapChunk #-}
-                  wrapChunk :: Ptr Word8 -> (Ptr Word8 -> IO (BuildSignal a))
-                            -> IO (BuildSignal a)
-                  wrapChunk !chunkDataEnd mkSignal
-                    | chunkDataEnd == opInner = mkSignal op
-                    | otherwise = do
-                        let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
-                        void $ writeWord32Hex (PadTo maxChunkSizeLength) chunkSize op
-                        void $ writeCRLF (opInner `F.plusPtr` (-crlfLength))
-                        void $ writeCRLF chunkDataEnd
-                        mkSignal (chunkDataEnd `F.plusPtr` crlfLength)
-
-                  doneH opInner' _ =
-                      wrapChunk opInner' $ \op' ->
-                        k $! BufferRange op' ope
-
-                  fullH opInner' minRequiredSize nextInnerStep =
-                      wrapChunk opInner' $ \op' ->
-                        pure $! B.bufferFull
-                          (minRequiredSize + maxEncodingOverhead)
-                          op'
-                          (go nextInnerStep)
- 
-                  insertChunkH opInner' bs nextInnerStep =
-                      wrapChunk opInner' $ \op' ->
-                        if S.null bs                      -- flush
-                        then pure $! B.insertChunk op' S.empty (go nextInnerStep)
-                        else do                           -- insert non-empty bytestring
-                          -- add header for inserted bytestring
-                          -- FIXME: assert(S.length bs < maxBound :: Word32)
-                          let chunkSize = fromIntegral $ S.length bs
-                          !op'' <- writeWord32Hex NoPadding chunkSize op'
-                          !op''' <- writeCRLF op''
-                          -- insert bytestring and write CRLF in next buildstep
-                          pure $! B.insertChunk
-                            op''' bs
-                            (B.runBuilderWith crlfBuilder $ go nextInnerStep)
-
+          | otherwise =
               -- execute inner builder with reduced boundaries
               B.fillWithBuildStep innerStep doneH fullH insertChunkH brInner
           where
             outRemaining = ope `F.minusPtr` op
             maxChunkSizeLength = word32HexLength $ fromIntegral outRemaining
+
+            !brInner@(BufferRange opInner _) = BufferRange
+                (op  `F.plusPtr` (maxChunkSizeLength + crlfLength)) -- leave space for chunk header
+                (ope `F.plusPtr` (-maxAfterBufferOverhead))         -- leave space at end of data
+
+            doneH opInner' _ =
+                wrapChunk opInner' $ \op' ->
+                  k $! BufferRange op' ope
+
+            fullH opInner' minRequiredSize nextInnerStep =
+                wrapChunk opInner' $ \op' ->
+                  pure $! B.bufferFull
+                    (minRequiredSize + maxEncodingOverhead)
+                    op'
+                    (go nextInnerStep)
+
+            insertChunkH opInner' bs nextInnerStep =
+                wrapChunk opInner' $ \op' ->
+                  if S.null bs                      -- flush
+                  then pure $! B.insertChunk op' S.empty (go nextInnerStep)
+                  else do                           -- insert non-empty bytestring
+                    -- add header for inserted bytestring
+                    -- FIXME: assert(S.length bs < maxBound :: Word32)
+                    let chunkSize = fromIntegral $ S.length bs
+                    !op'' <- writeWord32Hex NoPadding chunkSize op'
+                    !op''' <- writeCRLF op''
+                    -- insert bytestring and write CRLF in next buildstep
+                    pure $! B.insertChunk
+                      op''' bs
+                      (B.runBuilderWith crlfBuilder $ go nextInnerStep)
+
+            -- wraps the chunk, if it is non-empty, and returns the
+            -- signal constructed with the correct end-of-data pointer
+            {-# INLINE wrapChunk #-}
+            wrapChunk :: Ptr Word8 -> (Ptr Word8 -> IO (BuildSignal a))
+                      -> IO (BuildSignal a)
+            wrapChunk !chunkDataEnd mkSignal
+              | chunkDataEnd == opInner = mkSignal op
+              | otherwise = do
+                  let chunkSize = fromIntegral $ chunkDataEnd `F.minusPtr` opInner
+                  void $ writeWord32Hex (PadTo maxChunkSizeLength) chunkSize op
+                  void $ writeCRLF (opInner `F.plusPtr` (-crlfLength))
+                  void $ writeCRLF chunkDataEnd
+                  mkSignal (chunkDataEnd `F.plusPtr` crlfLength)
+
 
 -- | The zero-length chunk @0\\r\\n\\r\\n@ signaling the termination of the data transfer.
 chunkedTransferTerminator :: Builder
