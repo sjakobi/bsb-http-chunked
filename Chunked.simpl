@@ -1,0 +1,1132 @@
+==================== Tidy Core ====================
+Result size of Tidy Core
+  = {terms: 766, types: 504, coercions: 64, joins: 9/26}
+
+-- RHS size: {terms: 6, types: 3, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$WPadTo [InlPrag=INLINE[2]]
+  :: Int -> Padding
+[GblId[DataConWrapper],
+ Arity=1,
+ Caf=NoCafRefs,
+ Str=<S,U>m2,
+ Unf=Unf{Src=InlineStable, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True,
+         Guidance=ALWAYS_IF(arity=1,unsat_ok=True,boring_ok=False)
+         Tmpl= \ (dt [Occ=Once!] :: Int) ->
+                 case dt of { ghc-prim-0.5.3:GHC.Types.I# dt [Occ=Once] ->
+                 Data.ByteString.Builder.HTTP.Chunked.PadTo dt
+                 }}]
+Data.ByteString.Builder.HTTP.Chunked.$WPadTo
+  = \ (dt [Occ=Once!] :: Int) ->
+      case dt of { ghc-prim-0.5.3:GHC.Types.I# dt [Occ=Once] ->
+      Data.ByteString.Builder.HTTP.Chunked.PadTo dt
+      }
+
+-- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$trModule4
+  :: ghc-prim-0.5.3:GHC.Prim.Addr#
+[GblId,
+ Caf=NoCafRefs,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 90 0}]
+Data.ByteString.Builder.HTTP.Chunked.$trModule4
+  = "bsb-http-chunked-0.0.0.4-inplace"#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$trModule3
+  :: ghc-prim-0.5.3:GHC.Types.TrName
+[GblId,
+ Caf=NoCafRefs,
+ Str=m1,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 20}]
+Data.ByteString.Builder.HTTP.Chunked.$trModule3
+  = ghc-prim-0.5.3:GHC.Types.TrNameS
+      Data.ByteString.Builder.HTTP.Chunked.$trModule4
+
+-- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$trModule2
+  :: ghc-prim-0.5.3:GHC.Prim.Addr#
+[GblId,
+ Caf=NoCafRefs,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 100 0}]
+Data.ByteString.Builder.HTTP.Chunked.$trModule2
+  = "Data.ByteString.Builder.HTTP.Chunked"#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$trModule1
+  :: ghc-prim-0.5.3:GHC.Types.TrName
+[GblId,
+ Caf=NoCafRefs,
+ Str=m1,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 20}]
+Data.ByteString.Builder.HTTP.Chunked.$trModule1
+  = ghc-prim-0.5.3:GHC.Types.TrNameS
+      Data.ByteString.Builder.HTTP.Chunked.$trModule2
+
+-- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$trModule
+  :: ghc-prim-0.5.3:GHC.Types.Module
+[GblId,
+ Caf=NoCafRefs,
+ Str=m,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 30}]
+Data.ByteString.Builder.HTTP.Chunked.$trModule
+  = ghc-prim-0.5.3:GHC.Types.Module
+      Data.ByteString.Builder.HTTP.Chunked.$trModule3
+      Data.ByteString.Builder.HTTP.Chunked.$trModule1
+
+-- RHS size: {terms: 3, types: 1, coercions: 0, joins: 0/0}
+$krep :: ghc-prim-0.5.3:GHC.Types.KindRep
+[GblId, Caf=NoCafRefs, Str=m1, Unf=OtherCon []]
+$krep
+  = ghc-prim-0.5.3:GHC.Types.KindRepTyConApp
+      ghc-prim-0.5.3:GHC.Types.$tcInt
+      (ghc-prim-0.5.3:GHC.Types.[] @ ghc-prim-0.5.3:GHC.Types.KindRep)
+
+-- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tcPadding2
+  :: ghc-prim-0.5.3:GHC.Prim.Addr#
+[GblId,
+ Caf=NoCafRefs,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 30 0}]
+Data.ByteString.Builder.HTTP.Chunked.$tcPadding2 = "Padding"#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tcPadding1
+  :: ghc-prim-0.5.3:GHC.Types.TrName
+[GblId,
+ Caf=NoCafRefs,
+ Str=m1,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 20}]
+Data.ByteString.Builder.HTTP.Chunked.$tcPadding1
+  = ghc-prim-0.5.3:GHC.Types.TrNameS
+      Data.ByteString.Builder.HTTP.Chunked.$tcPadding2
+
+-- RHS size: {terms: 7, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tcPadding
+  :: ghc-prim-0.5.3:GHC.Types.TyCon
+[GblId,
+ Caf=NoCafRefs,
+ Str=m,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 70}]
+Data.ByteString.Builder.HTTP.Chunked.$tcPadding
+  = ghc-prim-0.5.3:GHC.Types.TyCon
+      11077465510673191934##
+      12251055337731259955##
+      Data.ByteString.Builder.HTTP.Chunked.$trModule
+      Data.ByteString.Builder.HTTP.Chunked.$tcPadding1
+      0#
+      ghc-prim-0.5.3:GHC.Types.krep$*
+
+-- RHS size: {terms: 3, types: 1, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding1 [InlPrag=NOUSERINLINE[~]]
+  :: ghc-prim-0.5.3:GHC.Types.KindRep
+[GblId, Caf=NoCafRefs, Str=m1, Unf=OtherCon []]
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding1
+  = ghc-prim-0.5.3:GHC.Types.KindRepTyConApp
+      Data.ByteString.Builder.HTTP.Chunked.$tcPadding
+      (ghc-prim-0.5.3:GHC.Types.[] @ ghc-prim-0.5.3:GHC.Types.KindRep)
+
+-- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding3
+  :: ghc-prim-0.5.3:GHC.Prim.Addr#
+[GblId,
+ Caf=NoCafRefs,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 40 0}]
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding3 = "'NoPadding"#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding2
+  :: ghc-prim-0.5.3:GHC.Types.TrName
+[GblId,
+ Caf=NoCafRefs,
+ Str=m1,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 20}]
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding2
+  = ghc-prim-0.5.3:GHC.Types.TrNameS
+      Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding3
+
+-- RHS size: {terms: 7, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding
+  :: ghc-prim-0.5.3:GHC.Types.TyCon
+[GblId,
+ Caf=NoCafRefs,
+ Str=m,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 70}]
+Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding
+  = ghc-prim-0.5.3:GHC.Types.TyCon
+      6518035191736211258##
+      15580923766022969366##
+      Data.ByteString.Builder.HTTP.Chunked.$trModule
+      Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding2
+      0#
+      Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding1
+
+-- RHS size: {terms: 3, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo1 [InlPrag=NOUSERINLINE[~]]
+  :: ghc-prim-0.5.3:GHC.Types.KindRep
+[GblId, Caf=NoCafRefs, Str=m4, Unf=OtherCon []]
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo1
+  = ghc-prim-0.5.3:GHC.Types.KindRepFun
+      $krep Data.ByteString.Builder.HTTP.Chunked.$tc'NoPadding1
+
+-- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo3
+  :: ghc-prim-0.5.3:GHC.Prim.Addr#
+[GblId,
+ Caf=NoCafRefs,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 30 0}]
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo3 = "'PadTo"#
+
+-- RHS size: {terms: 2, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo2
+  :: ghc-prim-0.5.3:GHC.Types.TrName
+[GblId,
+ Caf=NoCafRefs,
+ Str=m1,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 20}]
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo2
+  = ghc-prim-0.5.3:GHC.Types.TrNameS
+      Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo3
+
+-- RHS size: {terms: 7, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo
+  :: ghc-prim-0.5.3:GHC.Types.TyCon
+[GblId,
+ Caf=NoCafRefs,
+ Str=m,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 10 70}]
+Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo
+  = ghc-prim-0.5.3:GHC.Types.TyCon
+      7565586731260948937##
+      526952177853049305##
+      Data.ByteString.Builder.HTTP.Chunked.$trModule
+      Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo2
+      0#
+      Data.ByteString.Builder.HTTP.Chunked.$tc'PadTo1
+
+-- RHS size: {terms: 665, types: 431, coercions: 58, joins: 9/26}
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
+  :: Builder -> forall r. BuildStep r -> BuildStep r
+[GblId,
+ Arity=2,
+ Str=<L,1*C1(C(C1(U(U,1*U))))><L,C(C1(U(U,U)))>,
+ Unf=OtherCon []]
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
+  = \ (innerBuilder :: Builder) (@ r) (k :: BuildStep r) ->
+      let {
+        w [Dmd=<L,C(C1(U(U,1*U)))>] :: BufferRange -> IO (BuildSignal ())
+        [LclId]
+        w = (innerBuilder
+             `cast` (Data.ByteString.Builder.Internal.N:Builder[0]
+                     :: Builder ~R# (forall r. BuildStep r -> BuildStep r)))
+              @ ()
+              (Data.ByteString.Builder.Internal.finalBuildStep1
+               `cast` (<BufferRange>_R
+                       ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0] <BuildSignal ()>_R)
+                       :: (BufferRange
+                           -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                           -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                   ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                 BuildSignal () #))
+                          ~R# (BufferRange -> IO (BuildSignal ())))) } in
+      letrec {
+        go [InlPrag=NOUSERINLINE[2]]
+          :: forall _x.
+             (BufferRange -> IO (BuildSignal _x))
+             -> BufferRange
+             -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+             -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                     ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                   BuildSignal r #)
+        [LclId,
+         Arity=3,
+         Str=<L,C(C1(U(U,1*U)))><S(SS),1*U(U,U)><S,U>,
+         Unf=Unf{Src=InlineStable, TopLvl=False, Value=True, ConLike=True,
+                 WorkFree=True, Expandable=True,
+                 Guidance=ALWAYS_IF(arity=3,unsat_ok=True,boring_ok=False)
+                 Tmpl= \ (@ _x)
+                         (w1 [Occ=Once] :: BufferRange -> IO (BuildSignal _x))
+                         (w2 [Occ=Once!] :: BufferRange)
+                         (w3 [Occ=Once]
+                            :: ghc-prim-0.5.3:GHC.Prim.State#
+                                 ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+                         case w2 of { BufferRange ww1 [Occ=Once] ww2 [Occ=Once] ->
+                         $wgo @ _x w1 ww1 ww2 w3
+                         }}]
+        go
+          = \ (@ _x)
+              (w1 :: BufferRange -> IO (BuildSignal _x))
+              (w2 :: BufferRange)
+              (w3
+                 :: ghc-prim-0.5.3:GHC.Prim.State#
+                      ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+              case w2 of { BufferRange ww1 ww2 -> $wgo @ _x w1 ww1 ww2 w3 };
+        $wgo [InlPrag=NOUSERINLINE[2], Occ=LoopBreaker]
+          :: forall _x.
+             (BufferRange -> IO (BuildSignal _x))
+             -> ghc-prim-0.5.3:GHC.Prim.Addr#
+             -> ghc-prim-0.5.3:GHC.Prim.Addr#
+             -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+             -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                     ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                   BuildSignal r #)
+        [LclId,
+         Arity=4,
+         Str=<L,C(C1(U(U,1*U)))><S,U><S,U><S,U>,
+         Unf=OtherCon []]
+        $wgo
+          = \ (@ _x)
+              (w1 :: BufferRange -> IO (BuildSignal _x))
+              (ww :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+              (ww1 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+              (w2
+                 :: ghc-prim-0.5.3:GHC.Prim.State#
+                      ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+              let {
+                outRemaining [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Int#
+                [LclId]
+                outRemaining = ghc-prim-0.5.3:GHC.Prim.minusAddr# ww1 ww } in
+              case ghc-prim-0.5.3:GHC.Prim.<# outRemaining 23# of {
+                __DEFAULT ->
+                  let {
+                    maxChunkSizeLength [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Int#
+                    [LclId]
+                    maxChunkSizeLength
+                      = ghc-prim-0.5.3:GHC.Prim.-#
+                          8#
+                          (ghc-prim-0.5.3:GHC.Prim.uncheckedIShiftRA#
+                             (ghc-prim-0.5.3:GHC.Prim.word2Int#
+                                (ghc-prim-0.5.3:GHC.Prim.clz32#
+                                   (ghc-prim-0.5.3:GHC.Prim.narrow32Word#
+                                      (ghc-prim-0.5.3:GHC.Prim.int2Word# outRemaining))))
+                             2#) } in
+                  let {
+                    dt :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                    [LclId]
+                    dt
+                      = ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                          ww (ghc-prim-0.5.3:GHC.Prim.+# maxChunkSizeLength 2#) } in
+                  case ((w1
+                           (Data.ByteString.Builder.Internal.BufferRange
+                              dt (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww1 -12#)))
+                        `cast` (ghc-prim-0.5.3:GHC.Types.N:IO[0] <BuildSignal _x>_R
+                                :: IO (BuildSignal _x)
+                                   ~R# (ghc-prim-0.5.3:GHC.Prim.State#
+                                          ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                        -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                              BuildSignal _x #))))
+                         w2
+                  of
+                  { (# ipv2, ipv3 #) ->
+                  case ipv3 of {
+                    Data.ByteString.Builder.Internal.Done dt1 x ->
+                      case ghc-prim-0.5.3:GHC.Prim.eqAddr# dt1 dt of {
+                        __DEFAULT ->
+                          join {
+                            exit [Dmd=<C(S),C(U(U,U))>]
+                              :: ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                       BuildSignal r #)
+                            [LclId[JoinId(1)], Arity=1, Str=<S,U>]
+                            exit (w3 [OS=OneShot]
+                                    :: ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                              = let {
+                                  op [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                  [LclId]
+                                  op = ghc-prim-0.5.3:GHC.Prim.plusAddr# dt -2# } in
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld op 0# 13## w3
+                                of s2
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# op 1#)
+                                       0#
+                                       10##
+                                       s2
+                                of s1
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld dt1 0# 13## s1
+                                of s3
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt1 1#)
+                                       0#
+                                       10##
+                                       s3
+                                of s4
+                                { __DEFAULT ->
+                                ((k (Data.ByteString.Builder.Internal.BufferRange
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt1 2#) ww1))
+                                 `cast` (ghc-prim-0.5.3:GHC.Types.N:IO[0] <BuildSignal r>_R
+                                         :: IO (BuildSignal r)
+                                            ~R# (ghc-prim-0.5.3:GHC.Prim.State#
+                                                   ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                       BuildSignal r #))))
+                                  s4
+                                }
+                                }
+                                }
+                                } } in
+                          joinrec {
+                            $wgo1 [InlPrag=NOUSERINLINE[2], Occ=LoopBreaker]
+                              :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                 -> ghc-prim-0.5.3:GHC.Prim.Addr#
+                                 -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                       BuildSignal r #)
+                            [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                            $wgo1 (ww2 :: ghc-prim-0.5.3:GHC.Prim.Word#)
+                                  (ww3 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+                                  (w3
+                                     :: ghc-prim-0.5.3:GHC.Prim.State#
+                                          ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                              = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww3 ww of {
+                                  __DEFAULT ->
+                                    let {
+                                      nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                      [LclId]
+                                      nibble
+                                        = ghc-prim-0.5.3:GHC.Prim.and#
+                                            (ghc-prim-0.5.3:GHC.Prim.narrow8Word# ww2) 15## } in
+                                    case ghc-prim-0.5.3:GHC.Prim.ltWord# nibble 10## of {
+                                      __DEFAULT ->
+                                        case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                               @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                               ww3
+                                               0#
+                                               (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                  (ghc-prim-0.5.3:GHC.Prim.plusWord# 55## nibble))
+                                               w3
+                                        of s2
+                                        { __DEFAULT ->
+                                        jump $wgo1
+                                          (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww2 4#)
+                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww3 -1#)
+                                          s2
+                                        };
+                                      1# ->
+                                        case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                               @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                               ww3
+                                               0#
+                                               (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                  (ghc-prim-0.5.3:GHC.Prim.plusWord# 48## nibble))
+                                               w3
+                                        of s2
+                                        { __DEFAULT ->
+                                        jump $wgo1
+                                          (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww2 4#)
+                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww3 -1#)
+                                          s2
+                                        }
+                                    };
+                                  1# -> jump exit w3
+                                }; } in
+                          jump $wgo1
+                            (ghc-prim-0.5.3:GHC.Prim.narrow32Word#
+                               (ghc-prim-0.5.3:GHC.Prim.int2Word#
+                                  (ghc-prim-0.5.3:GHC.Prim.minusAddr# dt1 dt)))
+                            (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                               ww (ghc-prim-0.5.3:GHC.Prim.-# maxChunkSizeLength 1#))
+                            ipv2;
+                        1# ->
+                          ((k (Data.ByteString.Builder.Internal.BufferRange ww ww1))
+                           `cast` (ghc-prim-0.5.3:GHC.Types.N:IO[0] <BuildSignal r>_R
+                                   :: IO (BuildSignal r)
+                                      ~R# (ghc-prim-0.5.3:GHC.Prim.State#
+                                             ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                           -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                   ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                 BuildSignal r #))))
+                            ipv2
+                      };
+                    Data.ByteString.Builder.Internal.BufferFull dt1 dt2 nextStep ->
+                      case ghc-prim-0.5.3:GHC.Prim.eqAddr# dt2 dt of {
+                        __DEFAULT ->
+                          join {
+                            exit [Dmd=<C(S),C(U(U,U))>]
+                              :: ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                       BuildSignal r #)
+                            [LclId[JoinId(1)], Arity=1, Str=<S,U>]
+                            exit (w3 [OS=OneShot]
+                                    :: ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                              = let {
+                                  op [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                  [LclId]
+                                  op = ghc-prim-0.5.3:GHC.Prim.plusAddr# dt -2# } in
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld op 0# 13## w3
+                                of s2
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# op 1#)
+                                       0#
+                                       10##
+                                       s2
+                                of s1
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld dt2 0# 13## s1
+                                of s3
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt2 1#)
+                                       0#
+                                       10##
+                                       s3
+                                of s4
+                                { __DEFAULT ->
+                                (# s4,
+                                   Data.ByteString.Builder.Internal.BufferFull
+                                     @ r
+                                     (ghc-prim-0.5.3:GHC.Prim.+# dt1 22#)
+                                     (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt2 2#)
+                                     ((go @ _x nextStep)
+                                      `cast` (<BufferRange>_R
+                                              ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0]
+                                                            <BuildSignal r>_R)
+                                              :: (BufferRange
+                                                  -> ghc-prim-0.5.3:GHC.Prim.State#
+                                                       ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                        BuildSignal r #))
+                                                 ~R# (BufferRange -> IO (BuildSignal r)))) #)
+                                }
+                                }
+                                }
+                                } } in
+                          joinrec {
+                            $wgo1 [InlPrag=NOUSERINLINE[2], Occ=LoopBreaker]
+                              :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                 -> ghc-prim-0.5.3:GHC.Prim.Addr#
+                                 -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                       BuildSignal r #)
+                            [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                            $wgo1 (ww2 :: ghc-prim-0.5.3:GHC.Prim.Word#)
+                                  (ww3 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+                                  (w3
+                                     :: ghc-prim-0.5.3:GHC.Prim.State#
+                                          ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                              = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww3 ww of {
+                                  __DEFAULT ->
+                                    let {
+                                      nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                      [LclId]
+                                      nibble
+                                        = ghc-prim-0.5.3:GHC.Prim.and#
+                                            (ghc-prim-0.5.3:GHC.Prim.narrow8Word# ww2) 15## } in
+                                    case ghc-prim-0.5.3:GHC.Prim.ltWord# nibble 10## of {
+                                      __DEFAULT ->
+                                        case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                               @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                               ww3
+                                               0#
+                                               (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                  (ghc-prim-0.5.3:GHC.Prim.plusWord# 55## nibble))
+                                               w3
+                                        of s2
+                                        { __DEFAULT ->
+                                        jump $wgo1
+                                          (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww2 4#)
+                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww3 -1#)
+                                          s2
+                                        };
+                                      1# ->
+                                        case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                               @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                               ww3
+                                               0#
+                                               (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                  (ghc-prim-0.5.3:GHC.Prim.plusWord# 48## nibble))
+                                               w3
+                                        of s2
+                                        { __DEFAULT ->
+                                        jump $wgo1
+                                          (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww2 4#)
+                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww3 -1#)
+                                          s2
+                                        }
+                                    };
+                                  1# -> jump exit w3
+                                }; } in
+                          jump $wgo1
+                            (ghc-prim-0.5.3:GHC.Prim.narrow32Word#
+                               (ghc-prim-0.5.3:GHC.Prim.int2Word#
+                                  (ghc-prim-0.5.3:GHC.Prim.minusAddr# dt2 dt)))
+                            (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                               ww (ghc-prim-0.5.3:GHC.Prim.-# maxChunkSizeLength 1#))
+                            ipv2;
+                        1# ->
+                          (# ipv2,
+                             Data.ByteString.Builder.Internal.BufferFull
+                               @ r
+                               (ghc-prim-0.5.3:GHC.Prim.+# dt1 22#)
+                               ww
+                               ((go @ _x nextStep)
+                                `cast` (<BufferRange>_R
+                                        ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0]
+                                                      <BuildSignal r>_R)
+                                        :: (BufferRange
+                                            -> ghc-prim-0.5.3:GHC.Prim.State#
+                                                 ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                            -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                    ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                  BuildSignal r #))
+                                           ~R# (BufferRange -> IO (BuildSignal r)))) #)
+                      };
+                    Data.ByteString.Builder.Internal.InsertChunk dt1 bs nextStep ->
+                      join {
+                        $wmkSignal [InlPrag=NOUSERINLINE[2], Dmd=<C(C(S)),C(C1(U(U,U)))>]
+                          :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                             -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                             -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                     ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                   BuildSignal r #)
+                        [LclId[JoinId(2)], Arity=2, Str=<L,U><S,U>, Unf=OtherCon []]
+                        $wmkSignal (ww2 [OS=OneShot] :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+                                   (w3 [OS=OneShot]
+                                      :: ghc-prim-0.5.3:GHC.Prim.State#
+                                           ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                          = case bs of wild1 { Data.ByteString.Internal.PS dt2 dt3 dt4 dt5 ->
+                            case ghc-prim-0.5.3:GHC.Prim.<=# dt5 0# of {
+                              __DEFAULT ->
+                                let {
+                                  w4 [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                  [LclId]
+                                  w4
+                                    = ghc-prim-0.5.3:GHC.Prim.narrow32Word#
+                                        (ghc-prim-0.5.3:GHC.Prim.int2Word# dt5) } in
+                                let {
+                                  len [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Int#
+                                  [LclId]
+                                  len
+                                    = ghc-prim-0.5.3:GHC.Prim.-#
+                                        8#
+                                        (ghc-prim-0.5.3:GHC.Prim.uncheckedIShiftRA#
+                                           (ghc-prim-0.5.3:GHC.Prim.word2Int#
+                                              (ghc-prim-0.5.3:GHC.Prim.clz32# w4))
+                                           2#) } in
+                                join {
+                                  $w$j [InlPrag=NOUSERINLINE[2], Dmd=<C(S),C(U(U,U))>]
+                                    :: ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                               ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                             BuildSignal r #)
+                                  [LclId[JoinId(1)], Arity=1, Str=<S,U>]
+                                  $w$j (w5 [OS=OneShot]
+                                          :: ghc-prim-0.5.3:GHC.Prim.State#
+                                               ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                                    = let {
+                                        ipv [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                        [LclId]
+                                        ipv = ghc-prim-0.5.3:GHC.Prim.plusAddr# ww2 len } in
+                                      case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                             @ ghc-prim-0.5.3:GHC.Prim.RealWorld ipv 0# 13## w5
+                                      of s2
+                                      { __DEFAULT ->
+                                      case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                             @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                             (ghc-prim-0.5.3:GHC.Prim.plusAddr# ipv 1#)
+                                             0#
+                                             10##
+                                             s2
+                                      of s1
+                                      { __DEFAULT ->
+                                      (# s1,
+                                         Data.ByteString.Builder.Internal.InsertChunk
+                                           @ r
+                                           (ghc-prim-0.5.3:GHC.Prim.plusAddr# ipv 2#)
+                                           wild1
+                                           (let {
+                                              k1
+                                                :: BufferRange
+                                                   -> ghc-prim-0.5.3:GHC.Prim.State#
+                                                        ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                   -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                           ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                         BuildSignal r #)
+                                              [LclId,
+                                               Arity=2,
+                                               Str=<S(SS),1*U(U,U)><S,U>,
+                                               Unf=Unf{Src=InlineStable, TopLvl=False, Value=True,
+                                                       ConLike=True, WorkFree=True, Expandable=True,
+                                                       Guidance=ALWAYS_IF(arity=2,unsat_ok=True,boring_ok=False)
+                                                       Tmpl= \ (ds [Occ=Once!] :: BufferRange)
+                                                               (eta [Occ=Once]
+                                                                  :: ghc-prim-0.5.3:GHC.Prim.State#
+                                                                       ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+                                                               case ds of
+                                                               { BufferRange dt6 dt7 [Occ=Once] ->
+                                                               case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                                      @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                                      dt6
+                                                                      0#
+                                                                      13##
+                                                                      eta
+                                                               of s3 [Occ=Once]
+                                                               { __DEFAULT ->
+                                                               case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                                      @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                                      (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                                                                         dt6 1#)
+                                                                      0#
+                                                                      10##
+                                                                      s3
+                                                               of s4 [Occ=Once]
+                                                               { __DEFAULT ->
+                                                               go
+                                                                 @ _x
+                                                                 nextStep
+                                                                 (Data.ByteString.Builder.Internal.BufferRange
+                                                                    (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                                                                       dt6 2#)
+                                                                    dt7)
+                                                                 s4
+                                                               }
+                                                               }
+                                                               }}]
+                                              k1
+                                                = \ (ds :: BufferRange)
+                                                    (eta
+                                                       :: ghc-prim-0.5.3:GHC.Prim.State#
+                                                            ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+                                                    case ds of { BufferRange dt6 dt7 ->
+                                                    case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                           @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                           dt6
+                                                           0#
+                                                           13##
+                                                           eta
+                                                    of s3
+                                                    { __DEFAULT ->
+                                                    case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                           @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                           (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                                                              dt6 1#)
+                                                           0#
+                                                           10##
+                                                           s3
+                                                    of s4
+                                                    { __DEFAULT ->
+                                                    $wgo
+                                                      @ _x
+                                                      nextStep
+                                                      (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt6 2#)
+                                                      dt7
+                                                      s4
+                                                    }
+                                                    }
+                                                    } } in
+                                            (\ (br :: BufferRange)
+                                               (eta
+                                                  :: ghc-prim-0.5.3:GHC.Prim.State#
+                                                       ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+                                               case br of { BufferRange dt6 dt7 ->
+                                               case ghc-prim-0.5.3:GHC.Prim.<#
+                                                      (ghc-prim-0.5.3:GHC.Prim.minusAddr# dt7 dt6)
+                                                      2#
+                                               of {
+                                                 __DEFAULT ->
+                                                   case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                          @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                          dt6
+                                                          0#
+                                                          13##
+                                                          eta
+                                                   of s3
+                                                   { __DEFAULT ->
+                                                   case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                          @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt6 1#)
+                                                          0#
+                                                          10##
+                                                          s3
+                                                   of s4
+                                                   { __DEFAULT ->
+                                                   $wgo
+                                                     @ _x
+                                                     nextStep
+                                                     (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt6 2#)
+                                                     dt7
+                                                     s4
+                                                   }
+                                                   };
+                                                 1# ->
+                                                   (# eta,
+                                                      Data.ByteString.Builder.Internal.BufferFull
+                                                        @ r
+                                                        2#
+                                                        dt6
+                                                        (k1
+                                                         `cast` (<BufferRange>_R
+                                                                 ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0]
+                                                                               <BuildSignal r>_R)
+                                                                 :: (BufferRange
+                                                                     -> ghc-prim-0.5.3:GHC.Prim.State#
+                                                                          ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                                     -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                                             ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                                           BuildSignal r #))
+                                                                    ~R# (BufferRange
+                                                                         -> IO (BuildSignal r)))) #)
+                                               }
+                                               })
+                                            `cast` (<BufferRange>_R
+                                                    ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0]
+                                                                  <BuildSignal r>_R)
+                                                    :: (BufferRange
+                                                        -> ghc-prim-0.5.3:GHC.Prim.State#
+                                                             ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                        -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                                ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                              BuildSignal r #))
+                                                       ~R# (BufferRange -> IO (BuildSignal r)))) #)
+                                      }
+                                      } } in
+                                joinrec {
+                                  $wgo1 [InlPrag=NOUSERINLINE[2], Occ=LoopBreaker]
+                                    :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                       -> ghc-prim-0.5.3:GHC.Prim.Addr#
+                                       -> ghc-prim-0.5.3:GHC.Prim.State#
+                                            ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                               ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                             BuildSignal r #)
+                                  [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                                  $wgo1 (ww3 :: ghc-prim-0.5.3:GHC.Prim.Word#)
+                                        (ww4 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+                                        (w5
+                                           :: ghc-prim-0.5.3:GHC.Prim.State#
+                                                ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                                    = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww4 ww2 of {
+                                        __DEFAULT ->
+                                          let {
+                                            nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                            [LclId]
+                                            nibble
+                                              = ghc-prim-0.5.3:GHC.Prim.and#
+                                                  (ghc-prim-0.5.3:GHC.Prim.narrow8Word# ww3)
+                                                  15## } in
+                                          case ghc-prim-0.5.3:GHC.Prim.ltWord# nibble 10## of {
+                                            __DEFAULT ->
+                                              case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                     @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                     ww4
+                                                     0#
+                                                     (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                        (ghc-prim-0.5.3:GHC.Prim.plusWord#
+                                                           55## nibble))
+                                                     w5
+                                              of s2
+                                              { __DEFAULT ->
+                                              jump $wgo1
+                                                (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww3 4#)
+                                                (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww4 -1#)
+                                                s2
+                                              };
+                                            1# ->
+                                              case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                                     @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                     ww4
+                                                     0#
+                                                     (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                        (ghc-prim-0.5.3:GHC.Prim.plusWord#
+                                                           48## nibble))
+                                                     w5
+                                              of s2
+                                              { __DEFAULT ->
+                                              jump $wgo1
+                                                (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww3 4#)
+                                                (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww4 -1#)
+                                                s2
+                                              }
+                                          };
+                                        1# -> jump $w$j w5
+                                      }; } in
+                                jump $wgo1
+                                  w4
+                                  (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                                     ww2 (ghc-prim-0.5.3:GHC.Prim.-# len 1#))
+                                  w3;
+                              1# ->
+                                (# w3,
+                                   Data.ByteString.Builder.Internal.InsertChunk
+                                     @ r
+                                     ww2
+                                     S.empty
+                                     ((go @ _x nextStep)
+                                      `cast` (<BufferRange>_R
+                                              ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0]
+                                                            <BuildSignal r>_R)
+                                              :: (BufferRange
+                                                  -> ghc-prim-0.5.3:GHC.Prim.State#
+                                                       ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                                        BuildSignal r #))
+                                                 ~R# (BufferRange -> IO (BuildSignal r)))) #)
+                            }
+                            } } in
+                      case ghc-prim-0.5.3:GHC.Prim.eqAddr# dt1 dt of {
+                        __DEFAULT ->
+                          join {
+                            exit [Dmd=<C(S),C(U(U,U))>]
+                              :: ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                       BuildSignal r #)
+                            [LclId[JoinId(1)], Arity=1, Str=<S,U>]
+                            exit (w3 [OS=OneShot]
+                                    :: ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                              = let {
+                                  op [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                  [LclId]
+                                  op = ghc-prim-0.5.3:GHC.Prim.plusAddr# dt -2# } in
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld op 0# 13## w3
+                                of s2
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# op 1#)
+                                       0#
+                                       10##
+                                       s2
+                                of s1
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld dt1 0# 13## s1
+                                of s3
+                                { __DEFAULT ->
+                                case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                       @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                       (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt1 1#)
+                                       0#
+                                       10##
+                                       s3
+                                of s4
+                                { __DEFAULT ->
+                                jump $wmkSignal (ghc-prim-0.5.3:GHC.Prim.plusAddr# dt1 2#) s4
+                                }
+                                }
+                                }
+                                } } in
+                          joinrec {
+                            $wgo1 [InlPrag=NOUSERINLINE[2], Occ=LoopBreaker]
+                              :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                 -> ghc-prim-0.5.3:GHC.Prim.Addr#
+                                 -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                 -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                       BuildSignal r #)
+                            [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                            $wgo1 (ww2 :: ghc-prim-0.5.3:GHC.Prim.Word#)
+                                  (ww3 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
+                                  (w3
+                                     :: ghc-prim-0.5.3:GHC.Prim.State#
+                                          ghc-prim-0.5.3:GHC.Prim.RealWorld)
+                              = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww3 ww of {
+                                  __DEFAULT ->
+                                    let {
+                                      nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                      [LclId]
+                                      nibble
+                                        = ghc-prim-0.5.3:GHC.Prim.and#
+                                            (ghc-prim-0.5.3:GHC.Prim.narrow8Word# ww2) 15## } in
+                                    case ghc-prim-0.5.3:GHC.Prim.ltWord# nibble 10## of {
+                                      __DEFAULT ->
+                                        case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                               @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                               ww3
+                                               0#
+                                               (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                  (ghc-prim-0.5.3:GHC.Prim.plusWord# 55## nibble))
+                                               w3
+                                        of s2
+                                        { __DEFAULT ->
+                                        jump $wgo1
+                                          (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww2 4#)
+                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww3 -1#)
+                                          s2
+                                        };
+                                      1# ->
+                                        case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
+                                               @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                               ww3
+                                               0#
+                                               (ghc-prim-0.5.3:GHC.Prim.narrow8Word#
+                                                  (ghc-prim-0.5.3:GHC.Prim.plusWord# 48## nibble))
+                                               w3
+                                        of s2
+                                        { __DEFAULT ->
+                                        jump $wgo1
+                                          (ghc-prim-0.5.3:GHC.Prim.uncheckedShiftRL# ww2 4#)
+                                          (ghc-prim-0.5.3:GHC.Prim.plusAddr# ww3 -1#)
+                                          s2
+                                        }
+                                    };
+                                  1# -> jump exit w3
+                                }; } in
+                          jump $wgo1
+                            (ghc-prim-0.5.3:GHC.Prim.narrow32Word#
+                               (ghc-prim-0.5.3:GHC.Prim.int2Word#
+                                  (ghc-prim-0.5.3:GHC.Prim.minusAddr# dt1 dt)))
+                            (ghc-prim-0.5.3:GHC.Prim.plusAddr#
+                               ww (ghc-prim-0.5.3:GHC.Prim.-# maxChunkSizeLength 1#))
+                            ipv2;
+                        1# -> jump $wmkSignal ww ipv2
+                      }
+                  }
+                  };
+                1# ->
+                  (# w2,
+                     Data.ByteString.Builder.Internal.BufferFull
+                       @ r
+                       23#
+                       ww
+                       ((go @ _x w1)
+                        `cast` (<BufferRange>_R
+                                ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0] <BuildSignal r>_R)
+                                :: (BufferRange
+                                    -> ghc-prim-0.5.3:GHC.Prim.State#
+                                         ghc-prim-0.5.3:GHC.Prim.RealWorld
+                                    -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                                            ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                                          BuildSignal r #))
+                                   ~R# (BufferRange -> IO (BuildSignal r)))) #)
+              }; } in
+      (\ (w1 :: BufferRange)
+         (w2
+            :: ghc-prim-0.5.3:GHC.Prim.State#
+                 ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
+         case w1 of { BufferRange ww1 ww2 -> $wgo @ () w ww1 ww2 w2 })
+      `cast` (<BufferRange>_R
+              ->_R Sym (ghc-prim-0.5.3:GHC.Types.N:IO[0] <BuildSignal r>_R)
+              :: (BufferRange
+                  -> ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
+                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
+                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
+                        BuildSignal r #))
+                 ~R# (BufferRange -> IO (BuildSignal r)))
+
+-- RHS size: {terms: 1, types: 0, coercions: 4, joins: 0/0}
+chunkedTransferEncoding :: Builder -> Builder
+[GblId,
+ Arity=2,
+ Str=<L,1*C1(C(C1(U(U,1*U))))><L,C(C1(U(U,U)))>,
+ Unf=Unf{Src=InlineStable, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True,
+         Guidance=ALWAYS_IF(arity=0,unsat_ok=True,boring_ok=True)
+         Tmpl= Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
+               `cast` (<Builder>_R
+                       ->_R Sym (Data.ByteString.Builder.Internal.N:Builder[0])
+                       :: (Builder -> forall r. BuildStep r -> BuildStep r)
+                          ~R# (Builder -> Builder))}]
+chunkedTransferEncoding
+  = Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
+    `cast` (<Builder>_R
+            ->_R Sym (Data.ByteString.Builder.Internal.N:Builder[0])
+            :: (Builder -> forall r. BuildStep r -> BuildStep r)
+               ~R# (Builder -> Builder))
+
+-- RHS size: {terms: 1, types: 0, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator_addr#
+  :: ghc-prim-0.5.3:GHC.Prim.Addr#
+[GblId,
+ Caf=NoCafRefs,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 30 0}]
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator_addr#
+  = "0\r\n\
+    \\r\n"#
+
+-- RHS size: {terms: 17, types: 28, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator2
+  :: ByteString
+[GblId,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=False, ConLike=False,
+         WorkFree=False, Expandable=False, Guidance=IF_ARGS [] 53 50}]
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator2
+  = case ghc-prim-0.5.3:GHC.Prim.newMutVar#
+           @ GHC.ForeignPtr.Finalizers
+           @ ghc-prim-0.5.3:GHC.Prim.RealWorld
+           GHC.ForeignPtr.NoFinalizers
+           ghc-prim-0.5.3:GHC.Prim.realWorld#
+    of
+    { (# ipv, ipv1 #) ->
+    case {__pkg_ccall bytestring-0.10.8.2 Addr#
+                                 -> State# RealWorld -> (# State# RealWorld, Word# #)}
+           Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator_addr#
+           ipv
+    of
+    { (# ds, ds2 #) ->
+    Data.ByteString.Internal.PS
+      Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator_addr#
+      (GHC.ForeignPtr.PlainForeignPtr ipv1)
+      0#
+      (ghc-prim-0.5.3:GHC.Prim.word2Int# ds2)
+    }
+    }
+
+-- RHS size: {terms: 3, types: 3, coercions: 0, joins: 0/0}
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator1
+  :: forall r. BuildStep r -> BuildStep r
+[GblId,
+ Arity=3,
+ Unf=Unf{Src=<vanilla>, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True, Guidance=IF_ARGS [] 20 60}]
+Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator1
+  = \ (@ r) ->
+      Data.ByteString.Builder.Internal.byteStringCopyStep
+        @ r Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator2
+
+-- RHS size: {terms: 1, types: 0, coercions: 2, joins: 0/0}
+chunkedTransferTerminator :: Builder
+[GblId,
+ Arity=3,
+ Unf=Unf{Src=InlineStable, TopLvl=True, Value=True, ConLike=True,
+         WorkFree=True, Expandable=True,
+         Guidance=ALWAYS_IF(arity=0,unsat_ok=True,boring_ok=True)
+         Tmpl= Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator1
+               `cast` (Sym (Data.ByteString.Builder.Internal.N:Builder[0])
+                       :: (forall r. BuildStep r -> BuildStep r) ~R# Builder)}]
+chunkedTransferTerminator
+  = Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator1
+    `cast` (Sym (Data.ByteString.Builder.Internal.N:Builder[0])
+            :: (forall r. BuildStep r -> BuildStep r) ~R# Builder)
+
+
+
