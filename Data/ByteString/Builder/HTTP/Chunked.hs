@@ -1,4 +1,5 @@
 {-# LANGUAGE BangPatterns, MagicHash, OverloadedStrings, ScopedTypeVariables #-}
+{-# options_ghc -ddump-simpl -dsuppress-uniques #-}
 -- | HTTP/1.1 chunked transfer encoding as defined
 -- in [RFC 7230 Section 4.1](https://tools.ietf.org/html/rfc7230#section-4.1)
 
