@@ -254,7 +254,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                    BuildSignal r #)
         [LclId,
          Arity=3,
-         Str=<L,C(C1(U(U,1*U)))><S(SS),1*U(U,U)><S,U>,
+         Str=<L,C(C1(U(U,1*U)))><S,1*U(U,U)><L,U>,
          Unf=Unf{Src=InlineStable, TopLvl=False, Value=True, ConLike=True,
                  WorkFree=True, Expandable=True,
                  Guidance=ALWAYS_IF(arity=3,unsat_ok=True,boring_ok=False)
@@ -286,7 +286,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                    BuildSignal r #)
         [LclId,
          Arity=4,
-         Str=<L,C(C1(U(U,1*U)))><S,U><S,U><S,U>,
+         Str=<L,C(C1(U(U,1*U)))><L,U><L,U><L,U>,
          Unf=OtherCon []]
         $wgo
           = \ (@ _x)
@@ -297,13 +297,13 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                  :: ghc-prim-0.5.3:GHC.Prim.State#
                       ghc-prim-0.5.3:GHC.Prim.RealWorld) ->
               let {
-                outRemaining [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Int#
+                outRemaining :: ghc-prim-0.5.3:GHC.Prim.Int#
                 [LclId]
                 outRemaining = ghc-prim-0.5.3:GHC.Prim.minusAddr# ww1 ww } in
               case ghc-prim-0.5.3:GHC.Prim.<# outRemaining 23# of {
                 __DEFAULT ->
                   let {
-                    maxChunkSizeLength [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Int#
+                    maxChunkSizeLength :: ghc-prim-0.5.3:GHC.Prim.Int#
                     [LclId]
                     maxChunkSizeLength
                       = ghc-prim-0.5.3:GHC.Prim.-#
@@ -338,17 +338,17 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                       case ghc-prim-0.5.3:GHC.Prim.eqAddr# dt1 dt of {
                         __DEFAULT ->
                           join {
-                            exit [Dmd=<C(S),C(U(U,U))>]
+                            $w$j [InlPrag=NOUSERINLINE[2], Dmd=<C(S),C(U(U,U))>]
                               :: ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                        BuildSignal r #)
-                            [LclId[JoinId(1)], Arity=1, Str=<S,U>]
-                            exit (w3 [OS=OneShot]
+                            [LclId[JoinId(1)], Arity=1, Str=<L,U>]
+                            $w$j (w3 [OS=OneShot]
                                     :: ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld)
                               = let {
-                                  op [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                  op :: ghc-prim-0.5.3:GHC.Prim.Addr#
                                   [LclId]
                                   op = ghc-prim-0.5.3:GHC.Prim.plusAddr# dt -2# } in
                                 case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
@@ -397,7 +397,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                        BuildSignal r #)
-                            [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                            [LclId[JoinId(3)], Arity=3, Str=<L,U><L,U><L,U>, Unf=OtherCon []]
                             $wgo1 (ww2 :: ghc-prim-0.5.3:GHC.Prim.Word#)
                                   (ww3 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
                                   (w3
@@ -406,7 +406,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                               = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww3 ww of {
                                   __DEFAULT ->
                                     let {
-                                      nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                      nibble :: ghc-prim-0.5.3:GHC.Prim.Word#
                                       [LclId]
                                       nibble
                                         = ghc-prim-0.5.3:GHC.Prim.and#
@@ -443,7 +443,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                           s2
                                         }
                                     };
-                                  1# -> jump exit w3
+                                  1# -> jump $w$j w3
                                 }; } in
                           jump $wgo1
                             (ghc-prim-0.5.3:GHC.Prim.narrow32Word#
@@ -467,17 +467,17 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                       case ghc-prim-0.5.3:GHC.Prim.eqAddr# dt2 dt of {
                         __DEFAULT ->
                           join {
-                            exit [Dmd=<C(S),C(U(U,U))>]
+                            $w$j [InlPrag=NOUSERINLINE[2], Dmd=<C(S),C(U(U,U))>]
                               :: ghc-prim-0.5.3:GHC.Prim.State# ghc-prim-0.5.3:GHC.Prim.RealWorld
                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                        BuildSignal r #)
-                            [LclId[JoinId(1)], Arity=1, Str=<S,U>]
-                            exit (w3 [OS=OneShot]
+                            [LclId[JoinId(1)], Arity=1, Str=<L,U>]
+                            $w$j (w3 [OS=OneShot]
                                     :: ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld)
                               = let {
-                                  op [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                  op :: ghc-prim-0.5.3:GHC.Prim.Addr#
                                   [LclId]
                                   op = ghc-prim-0.5.3:GHC.Prim.plusAddr# dt -2# } in
                                 case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
@@ -532,7 +532,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                        BuildSignal r #)
-                            [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                            [LclId[JoinId(3)], Arity=3, Str=<L,U><L,U><L,U>, Unf=OtherCon []]
                             $wgo1 (ww2 :: ghc-prim-0.5.3:GHC.Prim.Word#)
                                   (ww3 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
                                   (w3
@@ -541,7 +541,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                               = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww3 ww of {
                                   __DEFAULT ->
                                     let {
-                                      nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                      nibble :: ghc-prim-0.5.3:GHC.Prim.Word#
                                       [LclId]
                                       nibble
                                         = ghc-prim-0.5.3:GHC.Prim.and#
@@ -578,7 +578,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                           s2
                                         }
                                     };
-                                  1# -> jump exit w3
+                                  1# -> jump $w$j w3
                                 }; } in
                           jump $wgo1
                             (ghc-prim-0.5.3:GHC.Prim.narrow32Word#
@@ -613,7 +613,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                              -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                      ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                    BuildSignal r #)
-                        [LclId[JoinId(2)], Arity=2, Str=<L,U><S,U>, Unf=OtherCon []]
+                        [LclId[JoinId(2)], Arity=2, Str=<L,U><L,U>, Unf=OtherCon []]
                         $wmkSignal (ww2 [OS=OneShot] :: ghc-prim-0.5.3:GHC.Prim.Addr#)
                                    (w3 [OS=OneShot]
                                       :: ghc-prim-0.5.3:GHC.Prim.State#
@@ -622,13 +622,13 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                             case ghc-prim-0.5.3:GHC.Prim.<=# dt5 0# of {
                               __DEFAULT ->
                                 let {
-                                  w4 [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                  w4 :: ghc-prim-0.5.3:GHC.Prim.Word#
                                   [LclId]
                                   w4
                                     = ghc-prim-0.5.3:GHC.Prim.narrow32Word#
                                         (ghc-prim-0.5.3:GHC.Prim.int2Word# dt5) } in
                                 let {
-                                  len [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Int#
+                                  len :: ghc-prim-0.5.3:GHC.Prim.Int#
                                   [LclId]
                                   len
                                     = ghc-prim-0.5.3:GHC.Prim.-#
@@ -644,12 +644,12 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                        -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                                ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                              BuildSignal r #)
-                                  [LclId[JoinId(1)], Arity=1, Str=<S,U>]
+                                  [LclId[JoinId(1)], Arity=1, Str=<L,U>]
                                   $w$j (w5 [OS=OneShot]
                                           :: ghc-prim-0.5.3:GHC.Prim.State#
                                                ghc-prim-0.5.3:GHC.Prim.RealWorld)
                                     = let {
-                                        ipv [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                        ipv :: ghc-prim-0.5.3:GHC.Prim.Addr#
                                         [LclId]
                                         ipv = ghc-prim-0.5.3:GHC.Prim.plusAddr# ww2 len } in
                                       case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
@@ -679,7 +679,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                                          BuildSignal r #)
                                               [LclId,
                                                Arity=2,
-                                               Str=<S(SS),1*U(U,U)><S,U>,
+                                               Str=<S,1*U(U,U)><L,U>,
                                                Unf=Unf{Src=InlineStable, TopLvl=False, Value=True,
                                                        ConLike=True, WorkFree=True, Expandable=True,
                                                        Guidance=ALWAYS_IF(arity=2,unsat_ok=True,boring_ok=False)
@@ -824,7 +824,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                        -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                                ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                              BuildSignal r #)
-                                  [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                                  [LclId[JoinId(3)], Arity=3, Str=<L,U><L,U><L,U>, Unf=OtherCon []]
                                   $wgo1 (ww3 :: ghc-prim-0.5.3:GHC.Prim.Word#)
                                         (ww4 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
                                         (w5
@@ -833,7 +833,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                     = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww4 ww2 of {
                                         __DEFAULT ->
                                           let {
-                                            nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                            nibble :: ghc-prim-0.5.3:GHC.Prim.Word#
                                             [LclId]
                                             nibble
                                               = ghc-prim-0.5.3:GHC.Prim.and#
@@ -907,12 +907,12 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                        BuildSignal r #)
-                            [LclId[JoinId(1)], Arity=1, Str=<S,U>]
+                            [LclId[JoinId(1)], Arity=1, Str=<L,U>]
                             exit (w3 [OS=OneShot]
                                     :: ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld)
                               = let {
-                                  op [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Addr#
+                                  op :: ghc-prim-0.5.3:GHC.Prim.Addr#
                                   [LclId]
                                   op = ghc-prim-0.5.3:GHC.Prim.plusAddr# dt -2# } in
                                 case ghc-prim-0.5.3:GHC.Prim.writeWord8OffAddr#
@@ -952,7 +952,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                                  -> (# ghc-prim-0.5.3:GHC.Prim.State#
                                          ghc-prim-0.5.3:GHC.Prim.RealWorld,
                                        BuildSignal r #)
-                            [LclId[JoinId(3)], Arity=3, Str=<L,U><S,U><S,U>, Unf=OtherCon []]
+                            [LclId[JoinId(3)], Arity=3, Str=<L,U><L,U><L,U>, Unf=OtherCon []]
                             $wgo1 (ww2 :: ghc-prim-0.5.3:GHC.Prim.Word#)
                                   (ww3 :: ghc-prim-0.5.3:GHC.Prim.Addr#)
                                   (w3
@@ -961,7 +961,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferEncoding1
                               = case ghc-prim-0.5.3:GHC.Prim.ltAddr# ww3 ww of {
                                   __DEFAULT ->
                                     let {
-                                      nibble [Dmd=<S,U>] :: ghc-prim-0.5.3:GHC.Prim.Word#
+                                      nibble :: ghc-prim-0.5.3:GHC.Prim.Word#
                                       [LclId]
                                       nibble
                                         = ghc-prim-0.5.3:GHC.Prim.and#
@@ -1087,7 +1087,7 @@ Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator2
            ghc-prim-0.5.3:GHC.Prim.realWorld#
     of
     { (# ipv, ipv1 #) ->
-    case {__pkg_ccall bytestring-0.10.8.2 Addr#
+    case {__pkg_ccall bytestring-0.10.9.0 Addr#
                                  -> State# RealWorld -> (# State# RealWorld, Word# #)}
            Data.ByteString.Builder.HTTP.Chunked.chunkedTransferTerminator_addr#
            ipv
