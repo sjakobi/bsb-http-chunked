@@ -1,7 +1,7 @@
 {-# language DeriveAnyClass, DeriveGeneric, OverloadedStrings #-}
 module Main where
 
-import Gauge
+import Test.Tasty.Bench
 
 import qualified Blaze.ByteString.Builder.HTTP as Blaze
 import Data.ByteString.Builder.HTTP.Chunked
