@@ -78,7 +78,9 @@ benchmark bench
                  , bsb-http-chunked
                  , bytestring
                  , deepseq
-                 , gauge
                  , semigroups
-  ghc-options: -O2 -Wall -rtsopts
+                 , tasty-bench
+  ghc-options: -O2 -Wall -rtsopts "-with-rtsopts=-A32m"
+  if impl(ghc >= 8.10)
+    ghc-options: "-with-rtsopts=-A32m --nonmoving-gc"
   type: exitcode-stdio-1.0
